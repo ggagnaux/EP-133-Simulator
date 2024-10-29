@@ -24,9 +24,19 @@
         <!-- Display Section -->
         <div class="display-section">
             <div class="display">
-                <!-- Display elements can be further broken down here -->
+                <div class="bar-indicators">
+                    <span class="bar"></span>
+                    <span class="bar"></span>
+                    <span class="bar"></span>
+                    <span class="bar"></span>
+                    <span class="bar off"></span>
+                    <span class="bar off"></span>
+                    <span class="bar"></span>
+                    <span class="bar"></span>
+                    <span class="bar"></span>
+                    <span class="bar"></span>
+                </div>
                 <span class="number">19.3</span>
-                <!-- Icons, other display details go here -->
             </div>
         </div>
 
@@ -35,7 +45,17 @@
 
             <!-- Example: knobs, buttons -->
             <!-- <div class="knob" id="volume-knob"></div> -->
-            <input type="text" class="knob" value="50" data-min="0" data-max="100" id="volume-knob">
+            <div class="knob-labels">
+                <span class="knob-label">VOLUME</span>
+                <span class="knob-label">BPM</span>
+                <span class="knob-label">METRONOME</span>
+            </div>            
+            <div class="knobs-row">
+                <input type="text" class="knob" value="50" data-min="0" data-max="100" id="volume-knob">
+                <input type="text" class="knob" value="50" data-min="0" data-max="100" id="knob-2">
+                <input type="text" class="knob" value="50" data-min="0" data-max="100" id="knob-3">
+            </div>
+
 
             <div class="button-grid">
                 <!-- 1st Row -->
@@ -45,7 +65,7 @@
                         <!-- <div class="indicator"></div>
                         <div class="indicator-label">X</div> -->
                     </div>
-                    <div class="button half-button">KEYS</div>
+                    <div id="button-keys" class="button half-button">KEYS</div>
                     <!-- <div class="underlabel">CHOP</div> -->
                 </div>
                 <div class="grid-item">
@@ -53,21 +73,21 @@
                         <div class="indicator indicator-off"></div>
                         <div class="indicator-label">&nbsp;</div>
                     </div>
-                    <div class="button group-button top-left">A</div>
+                    <div id="button-A" class="button group-button top-left">A</div>
                 </div>
                 <div class="grid-item">
                     <div class="indicator-label-wrapper">
                         <div class="indicator"></div>
                         <div class="indicator-label">LEVEL</div>
                     </div>
-                    <div id="button_7" class="button grid-button top-left">7</div>
+                    <div id="button-7" class="button grid-button top-left">7</div>
                 </div>
                <div class="grid-item">
                     <div class="indicator-label-wrapper">
                         <div class="indicator"></div>
                         <div class="indicator-label">PITCH</div>
                     </div>
-                    <div class="button grid-button top-left">8</div>
+                    <div id="button-8" class="button grid-button top-left">8</div>
                 </div>
 
                 <div class="grid-item">
@@ -75,7 +95,7 @@
                         <div class="indicator"></div>
                         <div class="indicator-label">TIME</div>
                     </div>
-                    <div class="button grid-button top-left">9</div>
+                    <div id="button-9" class="button grid-button top-left">9</div>
                 </div>
 
                 <div class="grid-item">
@@ -83,7 +103,7 @@
                         <div class="indicator"></div>
                         <div class="indicator-label">X</div>
                     </div>
-                    <div class="button half-button orange">SAMPLE</div>
+                    <div id="button-sample" class="button half-button orange">SAMPLE</div>
                     <div class="underlabel">CHOP</div>
                 </div>
 
@@ -92,7 +112,7 @@
                         <div class="indicator"></div>
                         <div class="indicator-label">X2</div>
                     </div>
-                    <div class="button half-button top-left">TIMING</div>
+                    <div id="button-timing" class="button half-button top-left">TIMING</div>
                     <div class="underlabel">CORRECT</div>
                 </div>
 
@@ -103,7 +123,7 @@
                         <!-- <div class="indicator"></div>
                         <div class="indicator-label">X</div> -->
                     </div>
-                    <div class="button half-button">FADER</div>
+                    <div id="button-fader" class="button half-button">FADER</div>
                     <!-- <div class="underlabel">CHOP</div> -->
                 </div>
 
@@ -112,7 +132,7 @@
                         <div class="indicator"></div>
                         <div class="indicator-label">&nbsp;</div>
                     </div>
-                    <div class="button group-button top-left">B</div>
+                    <div id="button-B" class="button group-button top-left">B</div>
                 </div>
 
                 <div class="grid-item">
@@ -120,7 +140,7 @@
                         <div class="indicator"></div>
                         <div class="indicator-label">LPF</div>
                     </div>
-                    <div class="button grid-button top-left">4</div>
+                    <div id="button-4" class="button grid-button top-left">4</div>
                 </div>
 
                 <div class="grid-item">
@@ -128,7 +148,7 @@
                         <div class="indicator"></div>
                         <div class="indicator-label">HPF</div>
                     </div>
-                    <div class="button grid-button top-left">5</div>
+                    <div id="button-5" class="button grid-button top-left">5</div>
                 </div>
 
                 <div class="grid-item">
@@ -136,7 +156,7 @@
                         <div class="indicator"></div>
                         <div class="indicator-label">FX</div>
                     </div>
-                    <div class="button grid-button top-left">6</div>
+                    <div id="button-6" class="button grid-button top-left">6</div>
                 </div>
 
                 <div class="grid-item">
@@ -144,7 +164,7 @@
                         <div class="indicator"></div>
                         <div class="indicator-label">X2</div>
                     </div>
-                    <div class="button half-button top-left">FX</div>
+                    <div id="button-fx" class="button half-button top-left">FX</div>
                     <div class="underlabel">OUTPUT</div>
                 </div>
 
@@ -153,7 +173,7 @@
                         <div class="indicator"></div>
                         <div class="indicator-label">X2</div>
                     </div>
-                    <div class="button half-button top-left">ERASE</div>
+                    <div id="button-erase" class="button half-button top-left">ERASE</div>
                     <div class="underlabel">SYSTEM</div>
                 </div>
 
@@ -173,7 +193,7 @@
                         <div class="indicator"></div>
                         <div class="indicator-label">&nbsp;</div>
                     </div>
-                    <div id="button-c" class="button group-button top-left">C</div>
+                    <div id="button-C" class="button group-button top-left">C</div>
                 </div>
 
                 <div class="grid-item">
@@ -197,7 +217,7 @@
                         <div class="indicator"></div>
                         <div class="indicator-label">PAN</div>
                     </div>
-                    <div class="button grid-button top-left">3</div>
+                    <div id="button-3" class="button grid-button top-left">3</div>
                 </div>
 
 
@@ -206,7 +226,7 @@
                         <div class="indicator"></div>
                         <div class="indicator-label">X2</div>
                     </div>
-                    <div class="button grid-button">-</div>
+                    <div id="button-minus" class="button grid-button">-</div>
                 </div>
 
                 <div class="grid-item">
@@ -214,7 +234,7 @@
                         <div class="indicator"></div>
                         <div class="indicator-label">X2</div>
                     </div>
-                    <div class="button grid-button">+</div>
+                    <div id="button-plus" class="button grid-button">+</div>
                 </div>
 
 
@@ -225,7 +245,7 @@
                         <!-- <div class="indicator"></div>
                         <div class="indicator-label">X</div> -->
                     </div>
-                    <div class="button half-button">SHIFT</div>
+                    <div id="button-shift" class="button half-button">SHIFT</div>
                     <!-- <div class="underlabel">CHOP</div> -->
                 </div>
 
@@ -234,7 +254,7 @@
                         <div class="indicator"></div>
                         <div class="indicator-label">&nbsp;&nbsp;</div>
                     </div>
-                    <div class="button group-button top-left">D</div>
+                    <div id="button-D" class="button group-button top-left">D</div>
                 </div>
 
                 <div class="grid-item">
@@ -242,7 +262,7 @@
                         <div class="indicator"></div>
                         <div class="indicator-label">TUNE</div>
                     </div>
-                    <div class="button grid-button top-left">.</div>
+                    <div id="button-period" class="button grid-button top-left">.</div>
                 </div>
 
                 <div class="grid-item">
@@ -250,7 +270,7 @@
                         <div class="indicator"></div>
                         <div class="indicator-label">VEL</div>
                     </div>
-                    <div class="button grid-button top-left">0</div>
+                    <div id="button-0" class="button grid-button top-left">0</div>
                 </div>
 
                 <div class="grid-item">
@@ -258,7 +278,7 @@
                         <div class="indicator"></div>
                         <div class="indicator-label">MOD</div>
                     </div>
-                    <div class="button grid-button top-left">ENTER</div>
+                    <div id="button-enter" class="button grid-button top-left">ENTER</div>
                 </div>
 
                 <div class="grid-item">
@@ -266,7 +286,7 @@
                         <div class="indicator"></div>
                         <div class="indicator-label">X2</div>
                     </div>
-                    <div class="button grid-button top-left orange">RECORD</div>
+                    <div id="button-record" class="button grid-button top-left orange">RECORD</div>
                 </div>
 
                 <div class="grid-item">
@@ -274,57 +294,14 @@
                         <div class="indicator"></div>
                         <div class="indicator-label">X2</div>
                     </div>
-                    <div class="button grid-button darkgrey">PLAY</div>
+                    <div id="button-play" class="button grid-button darkgrey">PLAY</div>
                 </div>
 
             </div>
-            <div class="knob" id="tempo-knob"></div>
+            <!-- <div class="knob" id="tempo-knob"></div> -->
         </div>
     </div>
     <script src="script.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/tone/14.8.37/Tone.js"></script>
     </body>
 </html>
-
-<!-- <script type="text/javascript">
-    $(document).ready(function() {
-        //$('.knob').knob();
-
-        // Initialize the knobs
-        $(".knob").knob({
-            'min': 0,
-            'max': 100,
-            'angleOffset': -125,
-            'angleArc': 250,
-            'fgColor': '#ff6600',
-            'bgColor': '#333',
-            'thickness': 0.3,
-            'width': 100,
-            'height': 100,
-            'displayInput': false
-        });
-
-        // Initialize the grid buttons
-        $(".grid-button").click(function() {
-            $(this).toggleClass("active");
-        });
-
-        // Initialize the group buttons
-        $(".group-button").click(function() {
-            $(this).toggleClass("active");
-        });
-
-        $("#slider-vertical").slider({
-            orientation: "vertical",
-            range: "min",
-            min: 0,
-            max: 100,
-            value: 60,
-            slide: function( event, ui ) {
-                //$( "#amount" ).val( ui.value );
-            }
-        });
-        //$( "#amount" ).val( $( "#slider-vertical" ).slider( "value" ) );
-
-    });
-</script> -->
