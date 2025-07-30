@@ -3,305 +3,246 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>EP-133 K.O. ii Replica</title>
-    <link rel="stylesheet" href="style.css">
-    <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script> 
-    <link rel="stylesheet" href="https://code.jquery.com/ui/1.14.0/themes/base/jquery-ui.css">
-    <script src="https://code.jquery.com/ui/1.14.0/jquery-ui.js"></script>
-    <script src="jquery.knob.js"></script>
+    <title>EP-133 Simulator</title>
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
     <div class="container">
-        <div class="top-buttons">
-            <div class="button" id="output">OUTPUT</div>
-            <div class="button orange" id="input">INPUT</div>
-            <div class="button" id="sync">SYNC</div>
-            <div class="button" id="midi">MIDI</div>
-            <div class="button" id="usb">USB</div>
-            <div class="button" id="power">POWER</div>
-        </div>
-        
-        <!-- Display Section -->
-        <div class="display-section">
-            <div class="display">
-                <div class="bar-indicators">
-                    <span class="bar"></span>
-                    <span class="bar"></span>
-                    <span class="bar"></span>
-                    <span class="bar"></span>
-                    <span class="bar off"></span>
-                    <span class="bar off"></span>
-                    <span class="bar"></span>
-                    <span class="bar"></span>
-                    <span class="bar"></span>
-                    <span class="bar"></span>
+        <div class="ep133-device">
+            <!-- Top Section with Logo -->
+            <div class="device-header">
+                <div class="logo">
+                    <span class="te-logo">teenage engineering</span>
+                    <span class="device-name">EP–133 K.O. II</span>
                 </div>
-                <span class="number">19.3</span>
-            </div>
-        </div>
-
-        <!-- Control Buttons and Knobs -->
-        <div class="controls">
-
-            <!-- Example: knobs, buttons -->
-            <!-- <div class="knob" id="volume-knob"></div> -->
-            <div class="knob-labels">
-                <span class="knob-label">VOLUME</span>
-                <span class="knob-label">BPM</span>
-                <span class="knob-label">METRONOME</span>
-            </div>            
-            <div class="knobs-row">
-                <input type="text" class="knob" value="50" data-min="0" data-max="100" id="volume-knob">
-                <input type="text" class="knob" value="50" data-min="0" data-max="100" id="knob-2">
-                <input type="text" class="knob" value="50" data-min="0" data-max="100" id="knob-3">
             </div>
 
-
-            <div class="button-grid">
-                <!-- 1st Row -->
-
-                <div class="grid-item">
-                    <div class="indicator-label-wrapper">
-                        <!-- <div class="indicator"></div>
-                        <div class="indicator-label">X</div> -->
+            <!-- Screen and Transport Section -->
+            <div class="screen-transport-section">
+                <!-- Screen -->
+                <div class="screen">
+                    <div class="display">
+                        <div class="display-text" id="displayText">EP-133</div>
+                        <div class="display-line2" id="displayLine2">READY</div>
                     </div>
-                    <div id="button-keys" class="button half-button">KEYS</div>
-                    <!-- <div class="underlabel">CHOP</div> -->
-                </div>
-                <div class="grid-item">
-                    <div class="indicator-label-wrapper">
-                        <div class="indicator indicator-off"></div>
-                        <div class="indicator-label">&nbsp;</div>
-                    </div>
-                    <div id="button-A" class="button group-button top-left">A</div>
-                </div>
-                <div class="grid-item">
-                    <div class="indicator-label-wrapper">
-                        <div class="indicator"></div>
-                        <div class="indicator-label">LEVEL</div>
-                    </div>
-                    <div id="button-7" class="button grid-button top-left">7</div>
-                </div>
-               <div class="grid-item">
-                    <div class="indicator-label-wrapper">
-                        <div class="indicator"></div>
-                        <div class="indicator-label">PITCH</div>
-                    </div>
-                    <div id="button-8" class="button grid-button top-left">8</div>
                 </div>
 
-                <div class="grid-item">
-                    <div class="indicator-label-wrapper">
-                        <div class="indicator"></div>
-                        <div class="indicator-label">TIME</div>
-                    </div>
-                    <div id="button-9" class="button grid-button top-left">9</div>
+                <!-- Transport Controls -->
+                <div class="transport-controls">
+                    <button class="transport-btn" id="playBtn" data-action="play">
+                        <span class="transport-icon">▶</span>
+                        <span class="transport-label">play</span>
+                    </button>
+                    <button class="transport-btn" id="stopBtn" data-action="stop">
+                        <span class="transport-icon">⏹</span>
+                        <span class="transport-label">stop</span>
+                    </button>
+                    <button class="transport-btn" id="recBtn" data-action="record">
+                        <span class="transport-icon">⏺</span>
+                        <span class="transport-label">rec</span>
+                    </button>
                 </div>
-
-                <div class="grid-item">
-                    <div class="indicator-label-wrapper">
-                        <div class="indicator"></div>
-                        <div class="indicator-label">X</div>
-                    </div>
-                    <div id="button-sample" class="button half-button orange">SAMPLE</div>
-                    <div class="underlabel">CHOP</div>
-                </div>
-
-                <div class="grid-item">
-                    <div class="indicator-label-wrapper">
-                        <div class="indicator"></div>
-                        <div class="indicator-label">X2</div>
-                    </div>
-                    <div id="button-timing" class="button half-button top-left">TIMING</div>
-                    <div class="underlabel">CORRECT</div>
-                </div>
-
-
-                <!-- 2nd Row -->
-                <div class="grid-item">
-                    <div class="indicator-label-wrapper">
-                        <!-- <div class="indicator"></div>
-                        <div class="indicator-label">X</div> -->
-                    </div>
-                    <div id="button-fader" class="button half-button">FADER</div>
-                    <!-- <div class="underlabel">CHOP</div> -->
-                </div>
-
-                <div class="grid-item">
-                    <div class="indicator-label-wrapper">
-                        <div class="indicator"></div>
-                        <div class="indicator-label">&nbsp;</div>
-                    </div>
-                    <div id="button-B" class="button group-button top-left">B</div>
-                </div>
-
-                <div class="grid-item">
-                    <div class="indicator-label-wrapper">
-                        <div class="indicator"></div>
-                        <div class="indicator-label">LPF</div>
-                    </div>
-                    <div id="button-4" class="button grid-button top-left">4</div>
-                </div>
-
-                <div class="grid-item">
-                    <div class="indicator-label-wrapper">
-                        <div class="indicator"></div>
-                        <div class="indicator-label">HPF</div>
-                    </div>
-                    <div id="button-5" class="button grid-button top-left">5</div>
-                </div>
-
-                <div class="grid-item">
-                    <div class="indicator-label-wrapper">
-                        <div class="indicator"></div>
-                        <div class="indicator-label">FX</div>
-                    </div>
-                    <div id="button-6" class="button grid-button top-left">6</div>
-                </div>
-
-                <div class="grid-item">
-                    <div class="indicator-label-wrapper">
-                        <div class="indicator"></div>
-                        <div class="indicator-label">X2</div>
-                    </div>
-                    <div id="button-fx" class="button half-button top-left">FX</div>
-                    <div class="underlabel">OUTPUT</div>
-                </div>
-
-                <div class="grid-item">
-                    <div class="indicator-label-wrapper">
-                        <div class="indicator"></div>
-                        <div class="indicator-label">X2</div>
-                    </div>
-                    <div id="button-erase" class="button half-button top-left">ERASE</div>
-                    <div class="underlabel">SYSTEM</div>
-                </div>
-
-
-                <!-- 3rd row -->
-                <div class="grid-item">
-                    <div id="slider-vertical" style="height:200px;"></div>
-                    <!-- <div class="indicator-label-wrapper">
-                        <div class="indicator"></div>
-                        <div class="indicator-label">&nbsp;</div>
-                    </div>
-                    <div class="button group-button top-left">C</div> -->
-                </div>
-
-                <div class="grid-item">
-                    <div class="indicator-label-wrapper">
-                        <div class="indicator"></div>
-                        <div class="indicator-label">&nbsp;</div>
-                    </div>
-                    <div id="button-C" class="button group-button top-left">C</div>
-                </div>
-
-                <div class="grid-item">
-                    <div class="indicator-label-wrapper">
-                        <div class="indicator"></div>
-                        <div class="indicator-label">ATK</div>
-                    </div>
-                    <div id="button-1" class="button grid-button top-left">1</div>
-                </div>
-
-                <div class="grid-item">
-                    <div class="indicator-label-wrapper">
-                        <div class="indicator"></div>
-                        <div class="indicator-label">REL</div>
-                    </div>
-                    <div id="button-2" class="button grid-button top-left">2</div>
-                </div>
-
-                <div class="grid-item">
-                    <div class="indicator-label-wrapper">
-                        <div class="indicator"></div>
-                        <div class="indicator-label">PAN</div>
-                    </div>
-                    <div id="button-3" class="button grid-button top-left">3</div>
-                </div>
-
-
-                <div class="grid-item">
-                    <div class="indicator-label-wrapper">
-                        <div class="indicator"></div>
-                        <div class="indicator-label">X2</div>
-                    </div>
-                    <div id="button-minus" class="button grid-button">-</div>
-                </div>
-
-                <div class="grid-item">
-                    <div class="indicator-label-wrapper">
-                        <div class="indicator"></div>
-                        <div class="indicator-label">X2</div>
-                    </div>
-                    <div id="button-plus" class="button grid-button">+</div>
-                </div>
-
-
-
-                <!-- 4th row -->
-                <div class="grid-item">
-                    <div class="indicator-label-wrapper">
-                        <!-- <div class="indicator"></div>
-                        <div class="indicator-label">X</div> -->
-                    </div>
-                    <div id="button-shift" class="button half-button">SHIFT</div>
-                    <!-- <div class="underlabel">CHOP</div> -->
-                </div>
-
-                <div class="grid-item">
-                    <div class="indicator-label-wrapper">
-                        <div class="indicator"></div>
-                        <div class="indicator-label">&nbsp;&nbsp;</div>
-                    </div>
-                    <div id="button-D" class="button group-button top-left">D</div>
-                </div>
-
-                <div class="grid-item">
-                    <div class="indicator-label-wrapper">
-                        <div class="indicator"></div>
-                        <div class="indicator-label">TUNE</div>
-                    </div>
-                    <div id="button-period" class="button grid-button top-left">.</div>
-                </div>
-
-                <div class="grid-item">
-                    <div class="indicator-label-wrapper">
-                        <div class="indicator"></div>
-                        <div class="indicator-label">VEL</div>
-                    </div>
-                    <div id="button-0" class="button grid-button top-left">0</div>
-                </div>
-
-                <div class="grid-item">
-                    <div class="indicator-label-wrapper">
-                        <div class="indicator"></div>
-                        <div class="indicator-label">MOD</div>
-                    </div>
-                    <div id="button-enter" class="button grid-button top-left">ENTER</div>
-                </div>
-
-                <div class="grid-item">
-                    <div class="indicator-label-wrapper">
-                        <div class="indicator"></div>
-                        <div class="indicator-label">X2</div>
-                    </div>
-                    <div id="button-record" class="button grid-button top-left orange">RECORD</div>
-                </div>
-
-                <div class="grid-item">
-                    <div class="indicator-label-wrapper">
-                        <div class="indicator"></div>
-                        <div class="indicator-label">X2</div>
-                    </div>
-                    <div id="button-play" class="button grid-button darkgrey">PLAY</div>
-                </div>
-
             </div>
-            <!-- <div class="knob" id="tempo-knob"></div> -->
+
+            <!-- Main Control Section -->
+            <div class="main-controls">
+                <!-- Left Side Controls -->
+                <div class="left-controls">
+                    <div class="mode-buttons">
+                        <button class="mode-btn active" data-action="pattern">
+                            <span class="btn-number">1</span>
+                            <span class="btn-label">pattern</span>
+                        </button>
+                        <button class="mode-btn" data-action="track">
+                            <span class="btn-number">2</span>
+                            <span class="btn-label">track</span>
+                        </button>
+                        <button class="mode-btn" data-action="sound">
+                            <span class="btn-number">3</span>
+                            <span class="btn-label">sound</span>
+                        </button>
+                        <button class="mode-btn" data-action="mixer">
+                            <span class="btn-number">4</span>
+                            <span class="btn-label">mixer</span>
+                        </button>
+                    </div>
+                    
+                    <div class="function-buttons">
+                        <button class="func-btn" data-action="fx">
+                            <span class="btn-label">fx</span>
+                        </button>
+                        <button class="func-btn" data-action="master">
+                            <span class="btn-label">master</span>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Right Side Controls -->
+                <div class="right-controls">
+                    <div class="tempo-swing">
+                        <button class="tempo-btn" data-action="tempo">
+                            <span class="btn-label">tempo</span>
+                            <span class="btn-value" id="tempoValue">120</span>
+                        </button>
+                        <button class="swing-btn" data-action="swing">
+                            <span class="btn-label">swing</span>
+                            <span class="btn-value" id="swingValue">0</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Main Pad Grid -->
+            <div class="pad-section">
+                <div class="pad-grid">
+                    <div class="pad-row">
+                        <button class="pad kick-pad" data-pad="1">
+                            <span class="pad-number">1</span>
+                            <span class="pad-label">kick</span>
+                        </button>
+                        <button class="pad snare-pad" data-pad="2">
+                            <span class="pad-number">2</span>
+                            <span class="pad-label">snare</span>
+                        </button>
+                        <button class="pad hihat-pad" data-pad="3">
+                            <span class="pad-number">3</span>
+                            <span class="pad-label">hi-hat</span>
+                        </button>
+                        <button class="pad openhat-pad" data-pad="4">
+                            <span class="pad-number">4</span>
+                            <span class="pad-label">open</span>
+                        </button>
+                    </div>
+                    <div class="pad-row">
+                        <button class="pad clap-pad" data-pad="5">
+                            <span class="pad-number">5</span>
+                            <span class="pad-label">clap</span>
+                        </button>
+                        <button class="pad crash-pad" data-pad="6">
+                            <span class="pad-number">6</span>
+                            <span class="pad-label">crash</span>
+                        </button>
+                        <button class="pad ride-pad" data-pad="7">
+                            <span class="pad-number">7</span>
+                            <span class="pad-label">ride</span>
+                        </button>
+                        <button class="pad perc-pad" data-pad="8">
+                            <span class="pad-number">8</span>
+                            <span class="pad-label">perc</span>
+                        </button>
+                    </div>
+                    <div class="pad-row">
+                        <button class="pad bass-pad" data-pad="9">
+                            <span class="pad-number">9</span>
+                            <span class="pad-label">bass</span>
+                        </button>
+                        <button class="pad synth-pad" data-pad="10">
+                            <span class="pad-number">10</span>
+                            <span class="pad-label">synth</span>
+                        </button>
+                        <button class="pad lead-pad" data-pad="11">
+                            <span class="pad-number">11</span>
+                            <span class="pad-label">lead</span>
+                        </button>
+                        <button class="pad pad-pad" data-pad="12">
+                            <span class="pad-number">12</span>
+                            <span class="pad-label">pad</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Step Sequencer LEDs -->
+            <div class="sequencer-section">
+                <div class="step-indicator">
+                    <span class="step-label">step</span>
+                </div>
+                <div class="step-leds">
+                    <div class="led-group single-row">
+                        <div class="step-led" data-step="0"><span class="step-num">1</span></div>
+                        <div class="step-led" data-step="1"><span class="step-num">2</span></div>
+                        <div class="step-led" data-step="2"><span class="step-num">3</span></div>
+                        <div class="step-led" data-step="3"><span class="step-num">4</span></div>
+                        <div class="step-led" data-step="4"><span class="step-num">5</span></div>
+                        <div class="step-led" data-step="5"><span class="step-num">6</span></div>
+                        <div class="step-led" data-step="6"><span class="step-num">7</span></div>
+                        <div class="step-led" data-step="7"><span class="step-num">8</span></div>
+                        <div class="step-led" data-step="8"><span class="step-num">9</span></div>
+                        <div class="step-led" data-step="9"><span class="step-num">10</span></div>
+                        <div class="step-led" data-step="10"><span class="step-num">11</span></div>
+                        <div class="step-led" data-step="11"><span class="step-num">12</span></div>
+                        <div class="step-led" data-step="12"><span class="step-num">13</span></div>
+                        <div class="step-led" data-step="13"><span class="step-num">14</span></div>
+                        <div class="step-led" data-step="14"><span class="step-num">15</span></div>
+                        <div class="step-led" data-step="15"><span class="step-num">16</span></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Knobs and Controls -->
+            <div class="controls-section">
+                <div class="knob-group">
+                    <div class="knob-container">
+                        <div class="knob" data-param="volume">
+                            <div class="knob-pointer"></div>
+                        </div>
+                        <label>volume</label>
+                    </div>
+                    <div class="knob-container">
+                        <div class="knob" data-param="filter">
+                            <div class="knob-pointer"></div>
+                        </div>
+                        <label>filter</label>
+                    </div>
+                    <div class="knob-container">
+                        <div class="knob" data-param="decay">
+                            <div class="knob-pointer"></div>
+                        </div>
+                        <label>decay</label>
+                    </div>
+                    <div class="knob-container">
+                        <div class="knob" data-param="pitch">
+                            <div class="knob-pointer"></div>
+                        </div>
+                        <label>pitch</label>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Bottom Controls -->
+            <div class="bottom-section">
+                <!-- Side Buttons -->
+                <div class="side-controls">
+                    <button class="func-btn" data-action="copy">
+                        <span class="btn-label">copy</span>
+                    </button>
+                    <button class="func-btn" data-action="paste">
+                        <span class="btn-label">paste</span>
+                    </button>
+                    <button class="func-btn" data-action="clear">
+                        <span class="btn-label">clear</span>
+                    </button>
+                    <button class="func-btn shift-btn" data-action="shift">
+                        <span class="btn-label">shift</span>
+                    </button>
+                </div>
+
+                <!-- Bottom Navigation -->
+                <div class="nav-controls">
+                    <button class="nav-btn" data-action="left">
+                        <span class="nav-arrow">◀</span>
+                    </button>
+                    <button class="nav-btn ok-btn" data-action="ok">
+                        <span class="btn-label">ok</span>
+                    </button>
+                    <button class="nav-btn" data-action="right">
+                        <span class="nav-arrow">▶</span>
+                    </button>
+                </div>
+            </div>
         </div>
     </div>
+
     <script src="script.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/tone/14.8.37/Tone.js"></script>
-    </body>
+</body>
 </html>
