@@ -6,6 +6,14 @@ A JavaScript-based web simulator of the Teenage Engineering EP-133 K.O. II sampl
 
 This project recreates the visual interface and basic functionality of the EP-133 K.O. II sampler composer, featuring an accurate representation of the device's layout, controls, and interactive elements.
 
+## Screenshots
+
+### Dark Theme
+![EP-133 Simulator - Dark Theme](Screenshots/EP-133-Dark.jpg)
+
+### Light Theme
+![EP-133 Simulator - Light Theme](Screenshots/EP-133-Light.jpg)
+
 ## Features
 
 ### Visual Interface
