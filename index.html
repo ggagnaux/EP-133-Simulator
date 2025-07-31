@@ -45,12 +45,6 @@
                             <span class="menu-text">About</span>
                         </button>
                     </li>
-                    <li class="menu-item">
-                        <button class="menu-btn" data-menu="theme">
-                            <span class="menu-icon">🌙</span>
-                            <span class="menu-text">Theme</span>
-                        </button>
-                    </li>
                 </ul>
             </nav>
             <div class="menu-footer">
@@ -451,6 +445,71 @@
                         <p>This is a fan-made simulator for educational and entertainment purposes.</p>
                         <p>Not affiliated with Teenage Engineering.</p>
                     </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Settings Dialog -->
+    <div id="settings-dialog" class="dialog-overlay">
+        <div class="dialog-content">
+            <div class="dialog-header">
+                <h3>Settings</h3>
+                <button class="dialog-close" id="close-settings-dialog">&times;</button>
+            </div>
+            <div class="dialog-body">
+                <div class="settings-section">
+                    <h4>Appearance</h4>
+                    <div class="setting-item">
+                        <label for="theme-selector">Theme:</label>
+                        <div class="theme-selector">
+                            <button class="theme-btn" data-theme="dark">
+                                <span class="theme-icon">🌙</span>
+                                <span class="theme-label">Dark</span>
+                            </button>
+                            <button class="theme-btn" data-theme="light">
+                                <span class="theme-icon">☀️</span>
+                                <span class="theme-label">Light</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="settings-section">
+                    <h4>Audio</h4>
+                    <div class="setting-item">
+                        <label for="volume-default">Default Volume:</label>
+                        <input type="range" id="volume-default" min="0" max="100" value="50" class="setting-slider">
+                        <span class="setting-value">50</span>
+                    </div>
+                    <div class="setting-item">
+                        <label for="tempo-default">Default Tempo:</label>
+                        <input type="range" id="tempo-default" min="60" max="180" value="133" class="setting-slider">
+                        <span class="setting-value">133 BPM</span>
+                    </div>
+                </div>
+                
+                <div class="settings-section">
+                    <h4>Interface</h4>
+                    <div class="setting-item">
+                        <label class="checkbox-label">
+                            <input type="checkbox" id="show-tooltips" checked>
+                            <span class="checkmark"></span>
+                            Show tooltips
+                        </label>
+                    </div>
+                    <div class="setting-item">
+                        <label class="checkbox-label">
+                            <input type="checkbox" id="enable-sounds" checked>
+                            <span class="checkmark"></span>
+                            Enable button sounds
+                        </label>
+                    </div>
+                </div>
+                
+                <div class="settings-footer">
+                    <button class="settings-btn primary" id="save-settings">Save Settings</button>
+                    <button class="settings-btn secondary" id="reset-settings">Reset to Defaults</button>
                 </div>
             </div>
         </div>
