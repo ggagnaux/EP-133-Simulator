@@ -93,8 +93,8 @@ This project recreates the visual interface and basic functionality of the EP-13
 
 ```
 EP-133/
-├── index.html          # Main HTML structure
-├── styles.css          # Complete styling and animations
+├── index.html         # Main HTML structure
+├── style.css          # Complete styling and animations
 ├── script.js          # Core JavaScript functionality
 ├── README.md          # This documentation
 └── EP-133.png         # Reference image

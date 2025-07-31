@@ -17,6 +17,12 @@ class EP133Simulator {
         this.audioContext = null;
         this.oscillators = {};
         this.currentTheme = localStorage.getItem('ep133-theme') || 'dark';
+        this.settings = {
+            defaultVolume: parseInt(localStorage.getItem('ep133-default-volume')) || 50,
+            defaultTempo: parseInt(localStorage.getItem('ep133-default-tempo')) || 133,
+            showTooltips: localStorage.getItem('ep133-show-tooltips') !== 'false',
+            enableSounds: localStorage.getItem('ep133-enable-sounds') !== 'false'
+        };
         
         this.init();
     }
@@ -24,8 +30,9 @@ class EP133Simulator {
     init() {
         this.setupEventListeners();
         this.initializeAudio();
-        this.updateDisplay();
         this.applyTheme();
+        this.applySettings();
+        this.updateDisplay();
     }
 
     initializeAudio() {
@@ -47,14 +54,175 @@ class EP133Simulator {
         this.applyTheme();
     }
 
-    updateThemeIcon() {
-        const themeBtn = document.querySelector('[data-menu="theme"]');
-        if (themeBtn) {
-            const icon = themeBtn.querySelector('.menu-icon');
-            if (icon) {
-                icon.textContent = this.currentTheme === 'dark' ? '🌙' : '☀️';
-            }
+    showSettingsDialog() {
+        const dialog = document.getElementById('settings-dialog');
+        if (dialog) {
+            this.loadSettingsIntoDialog();
+            dialog.classList.add('active');
+            document.body.style.overflow = 'hidden';
         }
+    }
+
+    hideSettingsDialog() {
+        const dialog = document.getElementById('settings-dialog');
+        if (dialog) {
+            dialog.classList.remove('active');
+            document.body.style.overflow = '';
+        }
+    }
+
+    loadSettingsIntoDialog() {
+        // Set current theme
+        document.querySelectorAll('.theme-btn').forEach(btn => {
+            btn.classList.remove('active');
+            if (btn.dataset.theme === this.currentTheme) {
+                btn.classList.add('active');
+            }
+        });
+        
+        // Set slider values
+        const volumeSlider = document.getElementById('volume-default');
+        const tempoSlider = document.getElementById('tempo-default');
+        
+        if (volumeSlider) {
+            volumeSlider.value = this.settings.defaultVolume;
+            volumeSlider.nextElementSibling.textContent = this.settings.defaultVolume;
+        }
+        
+        if (tempoSlider) {
+            tempoSlider.value = this.settings.defaultTempo;
+            tempoSlider.nextElementSibling.textContent = this.settings.defaultTempo + ' BPM';
+        }
+        
+        // Set checkbox values
+        const showTooltips = document.getElementById('show-tooltips');
+        const enableSounds = document.getElementById('enable-sounds');
+        
+        if (showTooltips) {
+            showTooltips.checked = this.settings.showTooltips;
+        }
+        
+        if (enableSounds) {
+            enableSounds.checked = this.settings.enableSounds;
+        }
+    }
+
+    selectTheme(theme) {
+        // Remove active class from all theme buttons
+        document.querySelectorAll('.theme-btn').forEach(btn => btn.classList.remove('active'));
+        
+        // Add active class to selected theme button
+        const selectedBtn = document.querySelector(`[data-theme="${theme}"]`);
+        if (selectedBtn) {
+            selectedBtn.classList.add('active');
+        }
+        
+        // Apply theme immediately
+        this.currentTheme = theme;
+        this.applyTheme();
+    }
+
+    saveSettings() {
+        // Get values from dialog
+        const volumeSlider = document.getElementById('volume-default');
+        const tempoSlider = document.getElementById('tempo-default');
+        const showTooltips = document.getElementById('show-tooltips');
+        const enableSounds = document.getElementById('enable-sounds');
+        
+        // Update settings object
+        this.settings.defaultVolume = parseInt(volumeSlider.value);
+        this.settings.defaultTempo = parseInt(tempoSlider.value);
+        this.settings.showTooltips = showTooltips.checked;
+        this.settings.enableSounds = enableSounds.checked;
+        
+        // Save to localStorage
+        localStorage.setItem('ep133-theme', this.currentTheme);
+        localStorage.setItem('ep133-default-volume', this.settings.defaultVolume);
+        localStorage.setItem('ep133-default-tempo', this.settings.defaultTempo);
+        localStorage.setItem('ep133-show-tooltips', this.settings.showTooltips);
+        localStorage.setItem('ep133-enable-sounds', this.settings.enableSounds);
+        
+        // Apply settings
+        this.applySettings();
+        
+        // Close dialog
+        this.hideSettingsDialog();
+        
+        // Show success message
+        this.showNotification('Settings saved successfully!');
+    }
+
+    resetSettings() {
+        // Reset to defaults
+        this.currentTheme = 'dark';
+        this.settings = {
+            defaultVolume: 50,
+            defaultTempo: 133,
+            showTooltips: true,
+            enableSounds: true
+        };
+        
+        // Clear localStorage
+        localStorage.removeItem('ep133-theme');
+        localStorage.removeItem('ep133-default-volume');
+        localStorage.removeItem('ep133-default-tempo');
+        localStorage.removeItem('ep133-show-tooltips');
+        localStorage.removeItem('ep133-enable-sounds');
+        
+        // Apply settings
+        this.applyTheme();
+        this.applySettings();
+        
+        // Reload dialog
+        this.loadSettingsIntoDialog();
+        
+        // Show notification
+        this.showNotification('Settings reset to defaults!');
+    }
+
+    applySettings() {
+        // Apply default volume and tempo
+        this.volume = this.settings.defaultVolume;
+        this.bpm = this.settings.defaultTempo;
+        
+        // Update display
+        this.updateDisplay();
+    }
+
+    showNotification(message) {
+        // Create notification element
+        const notification = document.createElement('div');
+        notification.className = 'notification';
+        notification.textContent = message;
+        notification.style.cssText = `
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: var(--text-accent);
+            color: white;
+            padding: 12px 20px;
+            border-radius: 6px;
+            font-family: 'Courier New', monospace;
+            font-size: 14px;
+            z-index: 2000;
+            transform: translateX(100%);
+            transition: transform 0.3s ease;
+        `;
+        
+        document.body.appendChild(notification);
+        
+        // Animate in
+        setTimeout(() => {
+            notification.style.transform = 'translateX(0)';
+        }, 100);
+        
+        // Remove after 3 seconds
+        setTimeout(() => {
+            notification.style.transform = 'translateX(100%)';
+            setTimeout(() => {
+                document.body.removeChild(notification);
+            }, 300);
+        }, 3000);
     }
 
     setupEventListeners() {
@@ -208,9 +376,6 @@ class EP133Simulator {
             case 'about':
                 this.showAboutMenu();
                 break;
-            case 'theme':
-                this.toggleTheme();
-                break;
         }
     }
 
@@ -226,7 +391,7 @@ class EP133Simulator {
 
     showSettingsMenu() {
         console.log('Settings menu selected');
-        // TODO: Implement settings interface
+        this.showSettingsDialog();
     }
 
     showHelpMenu() {
@@ -274,15 +439,83 @@ class EP133Simulator {
             });
         }
         
+        // Settings dialog event listeners
+        this.setupSettingsDialogEventListeners();
+        
         // Close dialog with Escape key
         document.addEventListener('keydown', (e) => {
             if (e.key === 'Escape') {
-                const dialog = document.getElementById('about-dialog');
-                if (dialog && dialog.classList.contains('active')) {
+                const aboutDialog = document.getElementById('about-dialog');
+                const settingsDialog = document.getElementById('settings-dialog');
+                if (aboutDialog && aboutDialog.classList.contains('active')) {
                     this.hideAboutDialog();
+                } else if (settingsDialog && settingsDialog.classList.contains('active')) {
+                    this.hideSettingsDialog();
                 }
             }
         });
+    }
+
+    setupSettingsDialogEventListeners() {
+        // Close button for settings dialog
+        const closeBtn = document.getElementById('close-settings-dialog');
+        if (closeBtn) {
+            closeBtn.addEventListener('click', () => {
+                this.hideSettingsDialog();
+            });
+        }
+        
+        // Close settings dialog when clicking outside
+        const dialog = document.getElementById('settings-dialog');
+        if (dialog) {
+            dialog.addEventListener('click', (e) => {
+                if (e.target === dialog) {
+                    this.hideSettingsDialog();
+                }
+            });
+        }
+        
+        // Theme buttons
+        document.querySelectorAll('.theme-btn').forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                const theme = e.currentTarget.dataset.theme;
+                this.selectTheme(theme);
+            });
+        });
+        
+        // Settings sliders
+        const volumeSlider = document.getElementById('volume-default');
+        const tempoSlider = document.getElementById('tempo-default');
+        
+        if (volumeSlider) {
+            volumeSlider.addEventListener('input', (e) => {
+                const value = e.target.value;
+                e.target.nextElementSibling.textContent = value;
+            });
+        }
+        
+        if (tempoSlider) {
+            tempoSlider.addEventListener('input', (e) => {
+                const value = e.target.value;
+                e.target.nextElementSibling.textContent = value + ' BPM';
+            });
+        }
+        
+        // Save and reset buttons
+        const saveBtn = document.getElementById('save-settings');
+        const resetBtn = document.getElementById('reset-settings');
+        
+        if (saveBtn) {
+            saveBtn.addEventListener('click', () => {
+                this.saveSettings();
+            });
+        }
+        
+        if (resetBtn) {
+            resetBtn.addEventListener('click', () => {
+                this.resetSettings();
+            });
+        }
     }
 
     handlePadPress(padId) {
