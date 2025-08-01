@@ -17,7 +17,7 @@ This project recreates the visual interface and basic functionality of the EP-13
 ## Features
 
 ### Visual Interface
-- **Authentic Design**: Pixel-perfect recreation of the EP-133 interface
+- **Authentic Design**: Pixel-perfect(ish) :) recreation of the EP-133 interface
 - **Responsive Layout**: Adapts to different screen sizes while maintaining proportions
 - **3D Perspective**: Subtle 3D transform for realistic device appearance
 - **Interactive Elements**: All buttons, pads, and knobs are clickable/interactive

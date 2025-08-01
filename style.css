@@ -14,7 +14,7 @@
     --pad-hover: rgba(255, 102, 0, 0.1);
     --pad-active: rgba(255, 102, 0, 0.2);
     --knob-bg: #2a2a2a;
-    --display-bg: #000;
+    --display-bg: #111;
     --display-text: #fff;
 }
 
@@ -34,7 +34,7 @@
     --pad-hover: rgba(255, 102, 0, 0.15);
     --pad-active: rgba(255, 102, 0, 0.25);
     --knob-bg: #e9ecef;
-    --display-bg: #ffffff;
+    --display-bg: #111;
     --display-text: #000000;
 }
 
@@ -274,8 +274,7 @@ body {
         inset 0 -1px 3px rgba(0, 0, 0, 0.1);
     padding: 0;
     position: relative;
-    transform: rotateX(2deg);
-    transition: background-color 0.3s ease, box-shadow 0.3s ease;
+    transition: background-color 0.3s ease, box-shadow 0.3s ease, transform 0.3s ease;
 }
 
 /* Top Section */
@@ -390,8 +389,7 @@ body {
 
 /* Main Display */
 .main-display {
-    /*background: var(--display-bg);*/
-    background-color: #111111;
+    background: var(--display-bg);
     border-radius: 2px;
     padding: 15px;
     margin-bottom: 20px;
@@ -410,10 +408,316 @@ body {
 
 .status-indicators {
     display: flex;
-    align-items: center;
-    gap: 15px;
+    flex-direction: column;
+    gap: 10px;
     margin-bottom: 10px;
     font-size: 12px;
+}
+
+.status-grid {
+    display: grid;
+    grid-template-columns: repeat(20, 25px);
+    grid-template-rows: repeat(4, 25px);
+    gap: 2px;
+    width: fit-content;
+    height: 100px; /* 4 rows * 25px */
+    margin: 0 auto;
+}
+
+.status-icon {
+    width: 25px;
+    height: 25px;
+    background-image: url('Images/EP-133-StatusIcons.png');
+    background-repeat: no-repeat;
+    background-size: 500px 100px; /* 20 columns * 25px = 500px, 4 rows * 25px = 100px */
+    border-radius: 1px;
+    opacity: 0.1;
+    transition: all 0.1s ease;
+}
+
+.status-icon.active {
+    opacity: 1;
+    transform: scale(1.1);
+    box-shadow: 0 0 6px #00ff88;
+    filter: brightness(1.2);
+    transition: all 0.1s ease;
+}
+
+/* Status Icon Sprite Positions - 80 icons in 20x4 grid */
+/* Row 1 (icons 1-20) */
+.status-icon[data-icon="1"] { background-position: 0px 0px; }
+.status-icon[data-icon="2"] { background-position: -25px 0px; }
+.status-icon[data-icon="3"] { background-position: -50px 0px; }
+.status-icon[data-icon="4"] { background-position: -75px 0px; }
+.status-icon[data-icon="5"] { background-position: -100px 0px; }
+.status-icon[data-icon="6"] { background-position: -125px 0px; }
+.status-icon[data-icon="7"] { background-position: -150px 0px; }
+.status-icon[data-icon="8"] { background-position: -175px 0px; }
+.status-icon[data-icon="9"] { background-position: -200px 0px; }
+.status-icon[data-icon="10"] { background-position: -225px 0px; }
+.status-icon[data-icon="11"] { background-position: -250px 0px; }
+.status-icon[data-icon="12"] { background-position: -275px 0px; }
+.status-icon[data-icon="13"] { background-position: -300px 0px; }
+.status-icon[data-icon="14"] { background-position: -325px 0px; }
+.status-icon[data-icon="15"] { background-position: -350px 0px; }
+.status-icon[data-icon="16"] { background-position: -375px 0px; }
+.status-icon[data-icon="17"] { background-position: -400px 0px; }
+.status-icon[data-icon="18"] { background-position: -425px 0px; }
+.status-icon[data-icon="19"] { background-position: -450px 0px; }
+.status-icon[data-icon="20"] { background-position: -475px 0px; }
+
+/* Row 2 (icons 21-40) */
+.status-icon[data-icon="21"] { background-position: 0px -25px; }
+.status-icon[data-icon="22"] { background-position: -25px -25px; }
+.status-icon[data-icon="23"] { background-position: -50px -25px; }
+.status-icon[data-icon="24"] { background-position: -75px -25px; }
+.status-icon[data-icon="25"] { background-position: -100px -25px; }
+.status-icon[data-icon="26"] { background-position: -125px -25px; }
+.status-icon[data-icon="27"] { background-position: -150px -25px; }
+.status-icon[data-icon="28"] { background-position: -175px -25px; }
+.status-icon[data-icon="29"] { background-position: -200px -25px; }
+.status-icon[data-icon="30"] { background-position: -225px -25px; }
+.status-icon[data-icon="31"] { background-position: -250px -25px; }
+.status-icon[data-icon="32"] { background-position: -275px -25px; }
+.status-icon[data-icon="33"] { background-position: -300px -25px; }
+.status-icon[data-icon="34"] { background-position: -325px -25px; }
+.status-icon[data-icon="35"] { background-position: -350px -25px; }
+.status-icon[data-icon="36"] { background-position: -375px -25px; }
+.status-icon[data-icon="37"] { background-position: -400px -25px; }
+.status-icon[data-icon="38"] { background-position: -425px -25px; }
+.status-icon[data-icon="39"] { background-position: -450px -25px; }
+.status-icon[data-icon="40"] { background-position: -475px -25px; }
+
+/* Row 3 (icons 41-60) */
+.status-icon[data-icon="41"] { background-position: 0px -50px; }
+.status-icon[data-icon="42"] { background-position: -25px -50px; }
+.status-icon[data-icon="43"] { background-position: -50px -50px; }
+.status-icon[data-icon="44"] { background-position: -75px -50px; }
+.status-icon[data-icon="45"] { background-position: -100px -50px; }
+.status-icon[data-icon="46"] { background-position: -125px -50px; }
+.status-icon[data-icon="47"] { background-position: -150px -50px; }
+.status-icon[data-icon="48"] { background-position: -175px -50px; }
+.status-icon[data-icon="49"] { background-position: -200px -50px; }
+.status-icon[data-icon="50"] { background-position: -225px -50px; }
+.status-icon[data-icon="51"] { background-position: -250px -50px; }
+.status-icon[data-icon="52"] { background-position: -275px -50px; }
+.status-icon[data-icon="53"] { background-position: -300px -50px; }
+.status-icon[data-icon="54"] { background-position: -325px -50px; }
+.status-icon[data-icon="55"] { background-position: -350px -50px; }
+.status-icon[data-icon="56"] { background-position: -375px -50px; }
+.status-icon[data-icon="57"] { background-position: -400px -50px; }
+.status-icon[data-icon="58"] { background-position: -425px -50px; }
+.status-icon[data-icon="59"] { background-position: -450px -50px; }
+.status-icon[data-icon="60"] { background-position: -475px -50px; }
+
+/* Row 4 (icons 61-80) */
+.status-icon[data-icon="61"] { background-position: 0px -75px; }
+.status-icon[data-icon="62"] { background-position: -25px -75px; }
+.status-icon[data-icon="63"] { background-position: -50px -75px; }
+.status-icon[data-icon="64"] { background-position: -75px -75px; }
+.status-icon[data-icon="65"] { background-position: -100px -75px; }
+.status-icon[data-icon="66"] { background-position: -125px -75px; }
+.status-icon[data-icon="67"] { background-position: -150px -75px; }
+.status-icon[data-icon="68"] { background-position: -175px -75px; }
+.status-icon[data-icon="69"] { background-position: -200px -75px; }
+.status-icon[data-icon="70"] { background-position: -225px -75px; }
+.status-icon[data-icon="71"] { background-position: -250px -75px; }
+.status-icon[data-icon="72"] { background-position: -275px -75px; }
+.status-icon[data-icon="73"] { background-position: -300px -75px; }
+.status-icon[data-icon="74"] { background-position: -325px -75px; }
+.status-icon[data-icon="75"] { background-position: -350px -75px; }
+.status-icon[data-icon="76"] { background-position: -375px -75px; }
+.status-icon[data-icon="77"] { background-position: -400px -75px; }
+.status-icon[data-icon="78"] { background-position: -425px -75px; }
+.status-icon[data-icon="79"] { background-position: -450px -75px; }
+.status-icon[data-icon="80"] { background-position: -475px -75px; }
+
+/* Responsive background positions for 768px breakpoint (20px icons) */
+@media (max-width: 768px) {
+    /* Row 1 (icons 1-20) - scaled to 20px */
+    .status-icon[data-icon="1"] { background-position: 0px 0px; }
+    .status-icon[data-icon="2"] { background-position: -20px 0px; }
+    .status-icon[data-icon="3"] { background-position: -40px 0px; }
+    .status-icon[data-icon="4"] { background-position: -60px 0px; }
+    .status-icon[data-icon="5"] { background-position: -80px 0px; }
+    .status-icon[data-icon="6"] { background-position: -100px 0px; }
+    .status-icon[data-icon="7"] { background-position: -120px 0px; }
+    .status-icon[data-icon="8"] { background-position: -140px 0px; }
+    .status-icon[data-icon="9"] { background-position: -160px 0px; }
+    .status-icon[data-icon="10"] { background-position: -180px 0px; }
+    .status-icon[data-icon="11"] { background-position: -200px 0px; }
+    .status-icon[data-icon="12"] { background-position: -220px 0px; }
+    .status-icon[data-icon="13"] { background-position: -240px 0px; }
+    .status-icon[data-icon="14"] { background-position: -260px 0px; }
+    .status-icon[data-icon="15"] { background-position: -280px 0px; }
+    .status-icon[data-icon="16"] { background-position: -300px 0px; }
+    .status-icon[data-icon="17"] { background-position: -320px 0px; }
+    .status-icon[data-icon="18"] { background-position: -340px 0px; }
+    .status-icon[data-icon="19"] { background-position: -360px 0px; }
+    .status-icon[data-icon="20"] { background-position: -380px 0px; }
+
+    /* Row 2 (icons 21-40) - scaled to 20px */
+    .status-icon[data-icon="21"] { background-position: 0px -20px; }
+    .status-icon[data-icon="22"] { background-position: -20px -20px; }
+    .status-icon[data-icon="23"] { background-position: -40px -20px; }
+    .status-icon[data-icon="24"] { background-position: -60px -20px; }
+    .status-icon[data-icon="25"] { background-position: -80px -20px; }
+    .status-icon[data-icon="26"] { background-position: -100px -20px; }
+    .status-icon[data-icon="27"] { background-position: -120px -20px; }
+    .status-icon[data-icon="28"] { background-position: -140px -20px; }
+    .status-icon[data-icon="29"] { background-position: -160px -20px; }
+    .status-icon[data-icon="30"] { background-position: -180px -20px; }
+    .status-icon[data-icon="31"] { background-position: -200px -20px; }
+    .status-icon[data-icon="32"] { background-position: -220px -20px; }
+    .status-icon[data-icon="33"] { background-position: -240px -20px; }
+    .status-icon[data-icon="34"] { background-position: -260px -20px; }
+    .status-icon[data-icon="35"] { background-position: -280px -20px; }
+    .status-icon[data-icon="36"] { background-position: -300px -20px; }
+    .status-icon[data-icon="37"] { background-position: -320px -20px; }
+    .status-icon[data-icon="38"] { background-position: -340px -20px; }
+    .status-icon[data-icon="39"] { background-position: -360px -20px; }
+    .status-icon[data-icon="40"] { background-position: -380px -20px; }
+
+    /* Row 3 (icons 41-60) - scaled to 20px */
+    .status-icon[data-icon="41"] { background-position: 0px -40px; }
+    .status-icon[data-icon="42"] { background-position: -20px -40px; }
+    .status-icon[data-icon="43"] { background-position: -40px -40px; }
+    .status-icon[data-icon="44"] { background-position: -60px -40px; }
+    .status-icon[data-icon="45"] { background-position: -80px -40px; }
+    .status-icon[data-icon="46"] { background-position: -100px -40px; }
+    .status-icon[data-icon="47"] { background-position: -120px -40px; }
+    .status-icon[data-icon="48"] { background-position: -140px -40px; }
+    .status-icon[data-icon="49"] { background-position: -160px -40px; }
+    .status-icon[data-icon="50"] { background-position: -180px -40px; }
+    .status-icon[data-icon="51"] { background-position: -200px -40px; }
+    .status-icon[data-icon="52"] { background-position: -220px -40px; }
+    .status-icon[data-icon="53"] { background-position: -240px -40px; }
+    .status-icon[data-icon="54"] { background-position: -260px -40px; }
+    .status-icon[data-icon="55"] { background-position: -280px -40px; }
+    .status-icon[data-icon="56"] { background-position: -300px -40px; }
+    .status-icon[data-icon="57"] { background-position: -320px -40px; }
+    .status-icon[data-icon="58"] { background-position: -340px -40px; }
+    .status-icon[data-icon="59"] { background-position: -360px -40px; }
+    .status-icon[data-icon="60"] { background-position: -380px -40px; }
+
+    /* Row 4 (icons 61-80) - scaled to 20px */
+    .status-icon[data-icon="61"] { background-position: 0px -60px; }
+    .status-icon[data-icon="62"] { background-position: -20px -60px; }
+    .status-icon[data-icon="63"] { background-position: -40px -60px; }
+    .status-icon[data-icon="64"] { background-position: -60px -60px; }
+    .status-icon[data-icon="65"] { background-position: -80px -60px; }
+    .status-icon[data-icon="66"] { background-position: -100px -60px; }
+    .status-icon[data-icon="67"] { background-position: -120px -60px; }
+    .status-icon[data-icon="68"] { background-position: -140px -60px; }
+    .status-icon[data-icon="69"] { background-position: -160px -60px; }
+    .status-icon[data-icon="70"] { background-position: -180px -60px; }
+    .status-icon[data-icon="71"] { background-position: -200px -60px; }
+    .status-icon[data-icon="72"] { background-position: -220px -60px; }
+    .status-icon[data-icon="73"] { background-position: -240px -60px; }
+    .status-icon[data-icon="74"] { background-position: -260px -60px; }
+    .status-icon[data-icon="75"] { background-position: -280px -60px; }
+    .status-icon[data-icon="76"] { background-position: -300px -60px; }
+    .status-icon[data-icon="77"] { background-position: -320px -60px; }
+    .status-icon[data-icon="78"] { background-position: -340px -60px; }
+    .status-icon[data-icon="79"] { background-position: -360px -60px; }
+    .status-icon[data-icon="80"] { background-position: -380px -60px; }
+}
+
+/* Responsive background positions for 480px breakpoint (15px icons) */
+@media (max-width: 480px) {
+    /* Row 1 (icons 1-20) - scaled to 15px */
+    .status-icon[data-icon="1"] { background-position: 0px 0px; }
+    .status-icon[data-icon="2"] { background-position: -15px 0px; }
+    .status-icon[data-icon="3"] { background-position: -30px 0px; }
+    .status-icon[data-icon="4"] { background-position: -45px 0px; }
+    .status-icon[data-icon="5"] { background-position: -60px 0px; }
+    .status-icon[data-icon="6"] { background-position: -75px 0px; }
+    .status-icon[data-icon="7"] { background-position: -90px 0px; }
+    .status-icon[data-icon="8"] { background-position: -105px 0px; }
+    .status-icon[data-icon="9"] { background-position: -120px 0px; }
+    .status-icon[data-icon="10"] { background-position: -135px 0px; }
+    .status-icon[data-icon="11"] { background-position: -150px 0px; }
+    .status-icon[data-icon="12"] { background-position: -165px 0px; }
+    .status-icon[data-icon="13"] { background-position: -180px 0px; }
+    .status-icon[data-icon="14"] { background-position: -195px 0px; }
+    .status-icon[data-icon="15"] { background-position: -210px 0px; }
+    .status-icon[data-icon="16"] { background-position: -225px 0px; }
+    .status-icon[data-icon="17"] { background-position: -240px 0px; }
+    .status-icon[data-icon="18"] { background-position: -255px 0px; }
+    .status-icon[data-icon="19"] { background-position: -270px 0px; }
+    .status-icon[data-icon="20"] { background-position: -285px 0px; }
+
+    /* Row 2 (icons 21-40) - scaled to 15px */
+    .status-icon[data-icon="21"] { background-position: 0px -15px; }
+    .status-icon[data-icon="22"] { background-position: -15px -15px; }
+    .status-icon[data-icon="23"] { background-position: -30px -15px; }
+    .status-icon[data-icon="24"] { background-position: -45px -15px; }
+    .status-icon[data-icon="25"] { background-position: -60px -15px; }
+    .status-icon[data-icon="26"] { background-position: -75px -15px; }
+    .status-icon[data-icon="27"] { background-position: -90px -15px; }
+    .status-icon[data-icon="28"] { background-position: -105px -15px; }
+    .status-icon[data-icon="29"] { background-position: -120px -15px; }
+    .status-icon[data-icon="30"] { background-position: -135px -15px; }
+    .status-icon[data-icon="31"] { background-position: -150px -15px; }
+    .status-icon[data-icon="32"] { background-position: -165px -15px; }
+    .status-icon[data-icon="33"] { background-position: -180px -15px; }
+    .status-icon[data-icon="34"] { background-position: -195px -15px; }
+    .status-icon[data-icon="35"] { background-position: -210px -15px; }
+    .status-icon[data-icon="36"] { background-position: -225px -15px; }
+    .status-icon[data-icon="37"] { background-position: -240px -15px; }
+    .status-icon[data-icon="38"] { background-position: -255px -15px; }
+    .status-icon[data-icon="39"] { background-position: -270px -15px; }
+    .status-icon[data-icon="40"] { background-position: -285px -15px; }
+
+    /* Row 3 (icons 41-60) - scaled to 15px */
+    .status-icon[data-icon="41"] { background-position: 0px -30px; }
+    .status-icon[data-icon="42"] { background-position: -15px -30px; }
+    .status-icon[data-icon="43"] { background-position: -30px -30px; }
+    .status-icon[data-icon="44"] { background-position: -45px -30px; }
+    .status-icon[data-icon="45"] { background-position: -60px -30px; }
+    .status-icon[data-icon="46"] { background-position: -75px -30px; }
+    .status-icon[data-icon="47"] { background-position: -90px -30px; }
+    .status-icon[data-icon="48"] { background-position: -105px -30px; }
+    .status-icon[data-icon="49"] { background-position: -120px -30px; }
+    .status-icon[data-icon="50"] { background-position: -135px -30px; }
+    .status-icon[data-icon="51"] { background-position: -150px -30px; }
+    .status-icon[data-icon="52"] { background-position: -165px -30px; }
+    .status-icon[data-icon="53"] { background-position: -180px -30px; }
+    .status-icon[data-icon="54"] { background-position: -195px -30px; }
+    .status-icon[data-icon="55"] { background-position: -210px -30px; }
+    .status-icon[data-icon="56"] { background-position: -225px -30px; }
+    .status-icon[data-icon="57"] { background-position: -240px -30px; }
+    .status-icon[data-icon="58"] { background-position: -255px -30px; }
+    .status-icon[data-icon="59"] { background-position: -270px -30px; }
+    .status-icon[data-icon="60"] { background-position: -285px -30px; }
+
+    /* Row 4 (icons 61-80) - scaled to 15px */
+    .status-icon[data-icon="61"] { background-position: 0px -45px; }
+    .status-icon[data-icon="62"] { background-position: -15px -45px; }
+    .status-icon[data-icon="63"] { background-position: -30px -45px; }
+    .status-icon[data-icon="64"] { background-position: -45px -45px; }
+    .status-icon[data-icon="65"] { background-position: -60px -45px; }
+    .status-icon[data-icon="66"] { background-position: -75px -45px; }
+    .status-icon[data-icon="67"] { background-position: -90px -45px; }
+    .status-icon[data-icon="68"] { background-position: -105px -45px; }
+    .status-icon[data-icon="69"] { background-position: -120px -45px; }
+    .status-icon[data-icon="70"] { background-position: -135px -45px; }
+    .status-icon[data-icon="71"] { background-position: -150px -45px; }
+    .status-icon[data-icon="72"] { background-position: -165px -45px; }
+    .status-icon[data-icon="73"] { background-position: -180px -45px; }
+    .status-icon[data-icon="74"] { background-position: -195px -45px; }
+    .status-icon[data-icon="75"] { background-position: -210px -45px; }
+    .status-icon[data-icon="76"] { background-position: -225px -45px; }
+    .status-icon[data-icon="77"] { background-position: -240px -45px; }
+    .status-icon[data-icon="78"] { background-position: -255px -45px; }
+    .status-icon[data-icon="79"] { background-position: -270px -45px; }
+    .status-icon[data-icon="80"] { background-position: -285px -45px; }
+}
+
+.status-info {
+    display: flex;
+    align-items: center;
+    gap: 15px;
 }
 
 .status-light {
@@ -982,6 +1286,20 @@ body {
     .pad-matrix {
         margin: 0;
     }
+    
+    .status-grid {
+        grid-template-columns: repeat(20, 20px);
+        grid-template-rows: repeat(4, 20px);
+        gap: 1px;
+        height: 80px; /* 4 rows * 20px */
+    }
+    
+    .status-icon {
+        width: 20px;
+        height: 20px;
+        background-size: 400px 80px; /* Scale down proportionally */
+        border-radius: 0.5px;
+    }
 }
 
 @media (max-width: 480px) {
@@ -1062,6 +1380,20 @@ body {
     .mode-btn {
         padding: 4px 8px;
         font-size: 8px;
+    }
+    
+    .status-grid {
+        grid-template-columns: repeat(20, 15px);
+        grid-template-rows: repeat(4, 15px);
+        gap: 0.5px;
+        height: 60px; /* 4 rows * 15px */
+    }
+    
+    .status-icon {
+        width: 15px;
+        height: 15px;
+        background-size: 300px 60px; /* Scale down proportionally */
+        border-radius: 0;
     }
 }
 
@@ -1254,7 +1586,7 @@ body {
 }
 
 .features-list li {
-    color: #ccc;
+    color: #777777;
     font-size: 14px;
     padding: 8px 0;
     border-bottom: 1px solid #333;
