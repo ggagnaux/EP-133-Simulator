@@ -945,9 +945,21 @@ class EP133Simulator {
         }
     }
 
+    // // Status icon management methods
+    // setStatusIcon(iconNumber, active = true) {
+    //     const icon = document.querySelector(`[data-icon="${iconNumber}"]`);
+    //     if (icon) {
+    //         if (active) {
+    //             icon.classList.add('active');
+    //         } else {
+    //             icon.classList.remove('active');
+    //         }
+    //     }
+    // }
+
     // Status icon management methods
     setStatusIcon(iconNumber, active = true) {
-        const icon = document.querySelector(`[data-icon="${iconNumber}"]`);
+        const icon = document.querySelector(`[data-icon^="${iconNumber}"]`);
         if (icon) {
             if (active) {
                 icon.classList.add('active');
