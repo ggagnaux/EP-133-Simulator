@@ -418,7 +418,7 @@ body {
     display: grid;
     grid-template-columns: repeat(20, 25px);
     grid-template-rows: repeat(4, 25px);
-    gap: 2px;
+    gap: 0;
     width: fit-content;
     height: 100px; /* 4 rows * 25px */
     margin: 0 auto;
@@ -438,7 +438,7 @@ body {
 .status-icon.active {
     opacity: 1;
     transform: scale(1.1);
-    box-shadow: 0 0 6px #00ff88;
+    /* box-shadow: 0 0 6px #00ff88; */
     filter: brightness(1.2);
     transition: all 0.1s ease;
 }
@@ -1290,7 +1290,7 @@ body {
     .status-grid {
         grid-template-columns: repeat(20, 20px);
         grid-template-rows: repeat(4, 20px);
-        gap: 1px;
+        gap: 0;
         height: 80px; /* 4 rows * 20px */
     }
     
@@ -1385,7 +1385,7 @@ body {
     .status-grid {
         grid-template-columns: repeat(20, 15px);
         grid-template-rows: repeat(4, 15px);
-        gap: 0.5px;
+        gap: 0;
         height: 60px; /* 4 rows * 15px */
     }
     
