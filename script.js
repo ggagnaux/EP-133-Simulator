@@ -945,18 +945,6 @@ class EP133Simulator {
         }
     }
 
-    // // Status icon management methods
-    // setStatusIcon(iconNumber, active = true) {
-    //     const icon = document.querySelector(`[data-icon="${iconNumber}"]`);
-    //     if (icon) {
-    //         if (active) {
-    //             icon.classList.add('active');
-    //         } else {
-    //             icon.classList.remove('active');
-    //         }
-    //     }
-    // }
-
     // Status icon management methods
     setStatusIcon(iconNumber, active = true) {
         const icon = document.querySelector(`[data-icon^="${iconNumber}"]`);
@@ -993,7 +981,7 @@ let simulatorInstance = null;
 // Initialize the simulator when the page loads
 document.addEventListener('DOMContentLoaded', () => {
     simulatorInstance = new EP133Simulator();
-    //window.EP133Debug.setRandomIcons();
+    window.EP133Debug.setRandomIcons();
 });
 
 window.EP133Debug = {
