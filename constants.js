@@ -1,0 +1,3 @@
+const MIN_TEMPO = 60;
+const MAX_TEMPO = 180;
+const DEFAULT_TRANSFORM_ANGLE = 0;

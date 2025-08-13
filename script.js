@@ -1,6 +1,3 @@
-const MIN_TEMPO = 60;
-const MAX_TEMPO = 180;
-const DEFAULT_TRANSFORM_ANGLE = 0;
 
 class EP133Simulator {
     constructor() {
@@ -948,11 +945,40 @@ class EP133Simulator {
     // Status icon management methods
     setStatusIcon(iconNumber, active = true) {
         const icon = document.querySelector(`[data-icon^="${iconNumber}"]`);
+        let iconPairElement = null;
+        let pairId = null;
+
         if (icon) {
+
+            // Is this icon part of an icon pair?
+            switch (iconNumber) {
+                case STATUSID_SOUNDMODE:  pairId = STATUSID_SOUNDMODE2; break;
+                case STATUSID_SOUNDMODE2: pairId = STATUSID_SOUNDMODE; break;
+                case STATUSID_MAINMODE: pairId = STATUSID_MAINMODE2; break;
+                case STATUSID_MAINMODE2: pairId = STATUSID_MAINMODE; break;
+                case STATUSID_TEMPO: pairId = STATUSID_TEMPO2; break;
+                case STATUSID_TEMPO2: pairId = STATUSID_TEMPO; break;
+                case STATUSID_ERASE: pairId = STATUSID_ERASE2; break; 
+                case STATUSID_ERASE2: pairId = STATUSID_ERASE; break;
+                case STATUSID_SYSTEM: pairId = STATUSID_SYSTEM2; break;
+                case STATUSID_SYSTEM2: pairId = STATUSID_SYSTEM; break; 
+                case STATUSID_SWING: pairId = STATUSID_SWING2; break;
+                case STATUSID_SWING2: pairId = STATUSID_SWING; break;
+                    break;
+            }
+
+            if (pairId != null)
+            {
+                iconPairElement = document.querySelector(`[data-icon="${pairId}"]`);            
+            }
+
+
             if (active) {
                 icon.classList.add('active');
+                iconPairElement?.classList.add('active');
             } else {
                 icon.classList.remove('active');
+                iconPairElement?.classList.remove('active');
             }
         }
     }
@@ -976,12 +1002,14 @@ class EP133Simulator {
 
 
 }
+
 let simulatorInstance = null;
+
 
 // Initialize the simulator when the page loads
 document.addEventListener('DOMContentLoaded', () => {
     simulatorInstance = new EP133Simulator();
-    window.EP133Debug.setRandomIcons();
+    window.EP133Debug.testSpriteIcons();
 });
 
 window.EP133Debug = {
@@ -1024,18 +1052,36 @@ window.EP133Debug = {
     },
     
     // Test sprite functionality
+
     testSpriteIcons: function() {
         if (simulatorInstance) {
             // Test a few specific icons to verify spriting works
             simulatorInstance.clearAllStatusIcons();
-            simulatorInstance.setStatusIcon(1, true);  // First icon
-            simulatorInstance.setStatusIcon(20, true); // Last icon of first row
-            simulatorInstance.setStatusIcon(21, true); // First icon of second row
-            simulatorInstance.setStatusIcon(40, true); // Last icon of second row
-            simulatorInstance.setStatusIcon(41, true); // First icon of third row
-            simulatorInstance.setStatusIcon(60, true); // Last icon of third row
-            simulatorInstance.setStatusIcon(61, true); // First icon of fourth row
-            simulatorInstance.setStatusIcon(80, true); // Last icon
+            simulatorInstance.setStatusIcon(STATUSID_BATTERY, true);  // First icon
+            simulatorInstance.setStatusIcon(STATUSID_YLEVEL3, true); // Last icon of first row
+            simulatorInstance.setStatusIcon(STATUSID_MUTE, true); // First icon of second row
+            simulatorInstance.setStatusIcon(STATUSID_YLEVEL4, true); // Last icon of second row
+            simulatorInstance.setStatusIcon(STATUSID_KEYSMODE, true); // First icon of third row
+            simulatorInstance.setStatusIcon(STATUSID_FREETIMEMODE, true); // Last icon of third row
+            simulatorInstance.setStatusIcon(STATUSID_FADERAUTOMATION, true); // First icon of fourth row
+            simulatorInstance.setStatusIcon(STATUSID_SWING2, true); // Last icon
+            console.log('Sprite test pattern applied - check if icons display correctly');
+        }
+    },
+
+    testSpriteIconPairs: function() {
+        if (simulatorInstance) {
+            // Test a few specific icons to verify spriting works
+            simulatorInstance.clearAllStatusIcons();
+
+            // Set the first icon of each icon pair.
+            // The paired icon should also activate/deactivate
+            simulatorInstance.setStatusIcon(STATUSID_SOUNDMODE, true); 
+            simulatorInstance.setStatusIcon(STATUSID_MAINMODE, true); 
+            simulatorInstance.setStatusIcon(STATUSID_ERASE, true); 
+            simulatorInstance.setStatusIcon(STATUSID_SYSTEM, true); 
+            simulatorInstance.setStatusIcon(STATUSID_SWING, true); 
+
             console.log('Sprite test pattern applied - check if icons display correctly');
         }
     }

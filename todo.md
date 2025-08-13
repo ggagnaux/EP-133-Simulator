@@ -4,7 +4,7 @@
 - [ ] Allow `setStatusIcon` to enable/disable multiple icons at once (accept array or range).
 - [ ] Add support for more complex status icon patterns (e.g., diagonal, alternating, etc.).
 - [ ] Animate status icons in custom patterns (not just sequential).
-- [ ] Ensure status icons that need to be handled at the same time are.
+- [x] Ensure status icons that need to be handled at the same time are.
 
 ## Sequencer & Playback
 - [ ] Implement actual step sequencing logic (sound playback per step, not just icon animation).
@@ -41,3 +41,4 @@
 - [ ] Refactor large methods for readability and maintainability.
 - [ ] Add comments and documentation for public methods.
 - [ ] Write unit tests for core logic (if test framework is present).
+- [x] Move constants and status ids into their own files.
