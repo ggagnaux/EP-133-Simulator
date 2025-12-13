@@ -22,7 +22,7 @@ class EP133Simulator {
             enableSounds: localStorage.getItem('ep133-enable-sounds') !== 'false',
             transform: parseFloat(localStorage.getItem('ep133-transform')) || DEFAULT_TRANSFORM_ANGLE
         };
-        
+
         this.init();
     }
 
@@ -42,12 +42,12 @@ class EP133Simulator {
         }
     }
 
-    
+
     applyTheme() {
         document.documentElement.setAttribute('data-theme', this.currentTheme);
         //this.updateThemeIcon();
     }
-    
+
 
     toggleTheme() {
         this.currentTheme = this.currentTheme === 'dark' ? 'light' : 'dark';
@@ -80,35 +80,35 @@ class EP133Simulator {
                 btn.classList.add('active');
             }
         });
-        
+
         // Set slider values
         const volumeSlider = document.getElementById('volume-default');
         const tempoSlider = document.getElementById('tempo-default');
         const transformSlider = document.getElementById('transform-value');
-        
+
         if (volumeSlider) {
             volumeSlider.value = this.settings.defaultVolume;
             volumeSlider.nextElementSibling.textContent = this.settings.defaultVolume;
         }
-        
+
         if (tempoSlider) {
             tempoSlider.value = this.settings.defaultTempo;
             tempoSlider.nextElementSibling.textContent = this.settings.defaultTempo + ' BPM';
         }
-        
+
         if (transformSlider) {
             transformSlider.value = this.settings.transform;
             transformSlider.nextElementSibling.textContent = this.settings.transform + '°';
         }
-        
+
         // Set checkbox values
         const showTooltips = document.getElementById('show-tooltips');
         const enableSounds = document.getElementById('enable-sounds');
-        
+
         if (showTooltips) {
             showTooltips.checked = this.settings.showTooltips;
         }
-        
+
         if (enableSounds) {
             enableSounds.checked = this.settings.enableSounds;
         }
@@ -117,13 +117,13 @@ class EP133Simulator {
     selectTheme(theme) {
         // Remove active class from all theme buttons
         document.querySelectorAll('.theme-btn').forEach(btn => btn.classList.remove('active'));
-        
+
         // Add active class to selected theme button
         const selectedBtn = document.querySelector(`[data-theme="${theme}"]`);
         if (selectedBtn) {
             selectedBtn.classList.add('active');
         }
-        
+
         // Apply theme immediately
         this.currentTheme = theme;
         this.applyTheme();
@@ -136,14 +136,14 @@ class EP133Simulator {
         const transformSlider = document.getElementById('transform-value');
         const showTooltips = document.getElementById('show-tooltips');
         const enableSounds = document.getElementById('enable-sounds');
-        
+
         // Update settings object
         this.settings.defaultVolume = parseInt(volumeSlider.value);
         this.settings.defaultTempo = parseInt(tempoSlider.value);
         this.settings.transform = parseFloat(transformSlider.value);
         this.settings.showTooltips = showTooltips.checked;
         this.settings.enableSounds = enableSounds.checked;
-        
+
         // Save to localStorage
         localStorage.setItem('ep133-theme', this.currentTheme);
         localStorage.setItem('ep133-default-volume', this.settings.defaultVolume);
@@ -151,13 +151,13 @@ class EP133Simulator {
         localStorage.setItem('ep133-transform', this.settings.transform);
         localStorage.setItem('ep133-show-tooltips', this.settings.showTooltips);
         localStorage.setItem('ep133-enable-sounds', this.settings.enableSounds);
-        
+
         // Apply settings
         this.applySettings();
-        
+
         // Close dialog
         this.hideSettingsDialog();
-        
+
         // Show success message
         this.showNotification('Settings saved successfully!');
     }
@@ -172,7 +172,7 @@ class EP133Simulator {
             enableSounds: true,
             transform: DEFAULT_TRANSFORM_ANGLE
         };
-        
+
         // Clear localStorage
         localStorage.removeItem('ep133-theme');
         localStorage.removeItem('ep133-default-volume');
@@ -180,14 +180,14 @@ class EP133Simulator {
         localStorage.removeItem('ep133-transform');
         localStorage.removeItem('ep133-show-tooltips');
         localStorage.removeItem('ep133-enable-sounds');
-        
+
         // Apply settings
         this.applyTheme();
         this.applySettings();
-        
+
         // Reload dialog
         this.loadSettingsIntoDialog();
-        
+
         // Show notification
         this.showNotification('Settings reset to defaults!');
     }
@@ -196,10 +196,10 @@ class EP133Simulator {
         // Apply default volume and tempo
         this.volume = this.settings.defaultVolume;
         this.bpm = this.settings.defaultTempo;
-        
+
         // Apply transform
         this.applyTransform();
-        
+
         // Update display
         this.updateDisplay();
     }
@@ -230,14 +230,14 @@ class EP133Simulator {
             transform: translateX(100%);
             transition: transform 0.3s ease;
         `;
-        
+
         document.body.appendChild(notification);
-        
+
         // Animate in
         setTimeout(() => {
             notification.style.transform = 'translateX(0)';
         }, 100);
-        
+
         // Remove after 3 seconds
         setTimeout(() => {
             notification.style.transform = 'translateX(100%)';
@@ -253,13 +253,13 @@ class EP133Simulator {
             btn.addEventListener('click', (e) => {
                 this.handleMenuClick(e.target.closest('.menu-btn').dataset.menu);
             });
-            
+
             // Touch events for mobile
             btn.addEventListener('touchstart', (e) => {
                 e.preventDefault();
                 btn.classList.add('touch-active');
             });
-            
+
             btn.addEventListener('touchend', (e) => {
                 e.preventDefault();
                 btn.classList.remove('touch-active');
@@ -279,7 +279,7 @@ class EP133Simulator {
             btn.addEventListener('click', (e) => {
                 this.switchMode(e.target.dataset.btn);
             });
-            
+
             // Touch events for mobile
             btn.addEventListener('touchstart', (e) => {
                 e.preventDefault();
@@ -292,7 +292,7 @@ class EP133Simulator {
             pad.addEventListener('mousedown', (e) => {
                 this.handlePadPress(e.target.dataset.pad);
             });
-            
+
             pad.addEventListener('mouseup', (e) => {
                 this.handlePadRelease(e.target.dataset.pad);
             });
@@ -301,13 +301,13 @@ class EP133Simulator {
             pad.addEventListener('contextmenu', (e) => {
                 e.preventDefault();
             });
-            
+
             // Touch events for mobile
             pad.addEventListener('touchstart', (e) => {
                 e.preventDefault();
                 this.handlePadPress(e.target.dataset.pad);
             });
-            
+
             pad.addEventListener('touchend', (e) => {
                 e.preventDefault();
                 this.handlePadRelease(e.target.dataset.pad);
@@ -352,10 +352,10 @@ class EP133Simulator {
     switchTab(tab) {
         // Remove active class from all tabs
         document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
-        
+
         // Add active class to clicked tab
         document.querySelector(`[data-tab="${tab}"]`).classList.add('active');
-        
+
         this.currentTab = tab;
         this.updateDisplay();
     }
@@ -363,10 +363,10 @@ class EP133Simulator {
     switchMode(mode) {
         // Remove active class from all control buttons
         document.querySelectorAll('.control-btn').forEach(btn => btn.classList.remove('active'));
-        
+
         // Add active class to clicked button
         document.querySelector(`[data-btn="${mode}"]`).classList.add('active');
-        
+
         this.currentMode = mode;
         this.updateDisplay();
     }
@@ -374,13 +374,13 @@ class EP133Simulator {
     handleMenuClick(menuItem) {
         // Remove active class from all menu buttons
         document.querySelectorAll('.menu-btn').forEach(btn => btn.classList.remove('active'));
-        
+
         // Add active class to clicked menu button
         const clickedBtn = document.querySelector(`[data-menu="${menuItem}"]`);
         if (clickedBtn) {
             clickedBtn.classList.add('active');
         }
-        
+
         // Handle different menu actions
         switch (menuItem) {
             case 'samples':
@@ -450,7 +450,7 @@ class EP133Simulator {
                 this.hideAboutDialog();
             });
         }
-        
+
         // Close dialog when clicking outside
         const dialog = document.getElementById('about-dialog');
         if (dialog) {
@@ -460,10 +460,10 @@ class EP133Simulator {
                 }
             });
         }
-        
+
         // Settings dialog event listeners
         this.setupSettingsDialogEventListeners();
-        
+
         // Close dialog with Escape key
         document.addEventListener('keydown', (e) => {
             if (e.key === 'Escape') {
@@ -486,7 +486,7 @@ class EP133Simulator {
                 this.hideSettingsDialog();
             });
         }
-        
+
         // Close settings dialog when clicking outside
         const dialog = document.getElementById('settings-dialog');
         if (dialog) {
@@ -496,7 +496,7 @@ class EP133Simulator {
                 }
             });
         }
-        
+
         // Theme buttons
         document.querySelectorAll('.theme-btn').forEach(btn => {
             btn.addEventListener('click', (e) => {
@@ -504,43 +504,43 @@ class EP133Simulator {
                 this.selectTheme(theme);
             });
         });
-        
+
         // Settings sliders
         const volumeSlider = document.getElementById('volume-default');
         const tempoSlider = document.getElementById('tempo-default');
         const transformSlider = document.getElementById('transform-value');
-        
+
         if (volumeSlider) {
             volumeSlider.addEventListener('input', (e) => {
                 const value = e.target.value;
                 e.target.nextElementSibling.textContent = value;
             });
         }
-        
+
         if (tempoSlider) {
             tempoSlider.addEventListener('input', (e) => {
                 const value = e.target.value;
                 e.target.nextElementSibling.textContent = value + ' BPM';
             });
         }
-        
+
         if (transformSlider) {
             transformSlider.addEventListener('input', (e) => {
                 const value = e.target.value;
                 e.target.nextElementSibling.textContent = value + '°';
             });
         }
-        
+
         // Save and reset buttons
         const saveBtn = document.getElementById('save-settings');
         const resetBtn = document.getElementById('reset-settings');
-        
+
         if (saveBtn) {
             saveBtn.addEventListener('click', () => {
                 this.saveSettings();
             });
         }
-        
+
         if (resetBtn) {
             resetBtn.addEventListener('click', () => {
                 this.resetSettings();
@@ -601,7 +601,7 @@ class EP133Simulator {
         if (pad && !['mute', 'accent'].includes(padId)) {
             pad.classList.remove('active');
         }
-        
+
         this.activePads.delete(padId);
         this.stopPadSound(padId);
     }
@@ -622,10 +622,10 @@ class EP133Simulator {
         };
 
         oscillator.frequency.setValueAtTime(
-            frequencies[padId] || 440, 
+            frequencies[padId] || 440,
             this.audioContext.currentTime
         );
-        
+
         oscillator.type = 'sine';
         gainNode.gain.setValueAtTime(0.1, this.audioContext.currentTime);
         gainNode.gain.exponentialRampToValueAtTime(0.01, this.audioContext.currentTime + 0.5);
@@ -670,10 +670,10 @@ class EP133Simulator {
 
     togglePlay() {
         this.isPlaying = !this.isPlaying;
-        
+
         const playBtn = document.querySelector('[data-pad="play"]');
         const playIcon = document.querySelector('.play-button');
-        
+
         if (this.isPlaying) {
             if (playBtn) playBtn.classList.add('active');
             if (playIcon) playIcon.classList.add('active');
@@ -687,10 +687,10 @@ class EP133Simulator {
 
     toggleRecord() {
         this.isRecording = !this.isRecording;
-        
+
         const recBtn = document.querySelector('[data-transport="rec"]');
         const statusLight = document.querySelector('.status-light.red');
-        
+
         if (this.isRecording) {
             recBtn.classList.add('active');
             statusLight.classList.add('active');
@@ -704,7 +704,7 @@ class EP133Simulator {
         if (this.sequencerInterval) {
             clearInterval(this.sequencerInterval);
         }
-        
+
         // Start status icon animation
         this.startStatusIconAnimation();
 
@@ -722,7 +722,7 @@ class EP133Simulator {
             clearInterval(this.sequencerInterval);
             this.sequencerInterval = null;
         }
-        
+
         // Stop status icon animation
         this.stopStatusIconAnimation();
     }
@@ -735,7 +735,7 @@ class EP133Simulator {
         const statusIcons = document.querySelectorAll('.status-icon');
         const totalIcons = statusIcons.length;
         let currentIconIndex = 0;
-        
+
         // Calculate timing based on BPM - complete cycle in one bar (4 beats)
         const cycleDuration = (60000 / this.bpm) * 4; // Duration for one complete cycle
         const iconInterval = cycleDuration / totalIcons; // Time per icon
@@ -786,7 +786,7 @@ class EP133Simulator {
 
     startKnobDrag(e, knob) {
         e.preventDefault();
-        
+
         const startY = e.clientY;
         const control = knob.dataset.control;
         const startValue = this.getKnobValue(control);
@@ -824,6 +824,10 @@ class EP133Simulator {
             case 'tempo':
                 this.tempo = value;
                 this.bpm = Math.round(MIN_TEMPO + (value / 100) * 120); // 60-180 BPM
+                // Restart sequencer if playing to apply new BPM
+                if (this.isPlaying) {
+                    this.startSequencer();
+                }
                 break;
             case 'pitch':
                 this.pitch = value;
@@ -952,24 +956,23 @@ class EP133Simulator {
 
             // Is this icon part of an icon pair?
             switch (iconNumber) {
-                case STATUSID_SOUNDMODE:  pairId = STATUSID_SOUNDMODE2; break;
+                case STATUSID_SOUNDMODE: pairId = STATUSID_SOUNDMODE2; break;
                 case STATUSID_SOUNDMODE2: pairId = STATUSID_SOUNDMODE; break;
                 case STATUSID_MAINMODE: pairId = STATUSID_MAINMODE2; break;
                 case STATUSID_MAINMODE2: pairId = STATUSID_MAINMODE; break;
                 case STATUSID_TEMPO: pairId = STATUSID_TEMPO2; break;
                 case STATUSID_TEMPO2: pairId = STATUSID_TEMPO; break;
-                case STATUSID_ERASE: pairId = STATUSID_ERASE2; break; 
+                case STATUSID_ERASE: pairId = STATUSID_ERASE2; break;
                 case STATUSID_ERASE2: pairId = STATUSID_ERASE; break;
                 case STATUSID_SYSTEM: pairId = STATUSID_SYSTEM2; break;
-                case STATUSID_SYSTEM2: pairId = STATUSID_SYSTEM; break; 
+                case STATUSID_SYSTEM2: pairId = STATUSID_SYSTEM; break;
                 case STATUSID_SWING: pairId = STATUSID_SWING2; break;
                 case STATUSID_SWING2: pairId = STATUSID_SWING; break;
                     break;
             }
 
-            if (pairId != null)
-            {
-                iconPairElement = document.querySelector(`[data-icon="${pairId}"]`);            
+            if (pairId != null) {
+                iconPairElement = document.querySelector(`[data-icon="${pairId}"]`);
             }
 
 
@@ -1013,7 +1016,7 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 window.EP133Debug = {
-    logState: function() {
+    logState: function () {
         if (simulatorInstance) {
             console.log('EP-133 Simulator State:', {
                 playing: simulatorInstance.isPlaying,
@@ -1025,9 +1028,9 @@ window.EP133Debug = {
             });
         }
     },
-    
+
     // Status icon debug functions
-    testStatusIcons: function() {
+    testStatusIcons: function () {
         if (simulatorInstance) {
             // Test pattern - activate every 5th icon
             const pattern = Array(80).fill(false).map((_, i) => (i + 1) % 5 === 0);
@@ -1035,25 +1038,25 @@ window.EP133Debug = {
             console.log('Test pattern applied to status icons');
         }
     },
-    
-    clearStatusIcons: function() {
+
+    clearStatusIcons: function () {
         if (simulatorInstance) {
             simulatorInstance.clearAllStatusIcons();
             console.log('All status icons cleared');
         }
     },
-    
-    setRandomIcons: function() {
+
+    setRandomIcons: function () {
         if (simulatorInstance) {
             const pattern = Array(80).fill(false).map(() => Math.random() > 0.7);
             simulatorInstance.setStatusIconPattern(pattern);
             console.log('Random pattern applied to status icons');
         }
     },
-    
+
     // Test sprite functionality
 
-    testSpriteIcons: function() {
+    testSpriteIcons: function () {
         if (simulatorInstance) {
             // Test a few specific icons to verify spriting works
             simulatorInstance.clearAllStatusIcons();
@@ -1069,18 +1072,18 @@ window.EP133Debug = {
         }
     },
 
-    testSpriteIconPairs: function() {
+    testSpriteIconPairs: function () {
         if (simulatorInstance) {
             // Test a few specific icons to verify spriting works
             simulatorInstance.clearAllStatusIcons();
 
             // Set the first icon of each icon pair.
             // The paired icon should also activate/deactivate
-            simulatorInstance.setStatusIcon(STATUSID_SOUNDMODE, true); 
-            simulatorInstance.setStatusIcon(STATUSID_MAINMODE, true); 
-            simulatorInstance.setStatusIcon(STATUSID_ERASE, true); 
-            simulatorInstance.setStatusIcon(STATUSID_SYSTEM, true); 
-            simulatorInstance.setStatusIcon(STATUSID_SWING, true); 
+            simulatorInstance.setStatusIcon(STATUSID_SOUNDMODE, true);
+            simulatorInstance.setStatusIcon(STATUSID_MAINMODE, true);
+            simulatorInstance.setStatusIcon(STATUSID_ERASE, true);
+            simulatorInstance.setStatusIcon(STATUSID_SYSTEM, true);
+            simulatorInstance.setStatusIcon(STATUSID_SWING, true);
 
             console.log('Sprite test pattern applied - check if icons display correctly');
         }
