@@ -13,6 +13,7 @@ class EP133Simulator {
         // Application state
         this.currentTab = 'output';
         this.currentMode = 'comp';
+        this.isPoweredOn = true;
         this.currentTheme = localStorage.getItem(CONFIG.STORAGE.THEME) || CONFIG.UI.THEMES.DARK;
 
         // Settings
@@ -120,22 +121,16 @@ class EP133Simulator {
      */
     handlePadPress(padId) {
         if (!padId) return;
+        if (padId === 'power') return; // Handled by tab switching
+        if (!this.isPoweredOn) return; // Disabled when off
 
         this.uiManager.highlightPad(padId, true);
-
         if (this.settings.enableSounds) {
             this.audioEngine.playPadSound(padId);
         }
-
-        // Handle special pads
         switch (padId) {
-            case 'play':
-                this.sequencer.togglePlay();
-                break;
-            case 'record':
-                this.sequencer.toggleRecord();
-                break;
-            // TODO: Add other special pad handlers
+            case 'play': this.sequencer.togglePlay(); break;
+            case 'record': this.sequencer.toggleRecord(); break;
         }
     }
 
@@ -277,16 +272,31 @@ class EP133Simulator {
      * Switch tab
      */
     switchTab(tab) {
+        if (tab === 'power') {
+            this.togglePower();
+            return;
+        }
+        if (!this.isPoweredOn) return;
         document.querySelectorAll(CONFIG.UI.SELECTORS.TABS).forEach(t => t.classList.remove('active'));
         const tabElement = document.querySelector(`[data-tab="${tab}"]`);
         if (tabElement) tabElement.classList.add('active');
         this.currentTab = tab;
     }
 
+    togglePower() {
+        this.isPoweredOn = !this.isPoweredOn;
+        this.uiManager.togglePower(this.isPoweredOn);
+        if (!this.isPoweredOn) {
+            this.sequencer.stop();
+            this.audioEngine.stopAllSounds();
+        }
+    }
+
     /**
      * Switch mode
      */
     switchMode(mode) {
+        if (!this.isPoweredOn) return;
         document.querySelectorAll(CONFIG.UI.SELECTORS.CONTROL_BTNS).forEach(btn => btn.classList.remove('active'));
         const modeBtn = document.querySelector(`[data-btn="${mode}"]`);
         if (modeBtn) modeBtn.classList.add('active');

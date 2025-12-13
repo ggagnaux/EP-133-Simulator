@@ -17,6 +17,12 @@ class UIManager {
         this.cacheElements();
     }
 
+    togglePower(isOn) {
+        if (this.elements.device) {
+            this.elements.device.classList.toggle('powered-off', !isOn);
+        }
+    }
+
     /**
      * Cache frequently accessed DOM elements
      */
