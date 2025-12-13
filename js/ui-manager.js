@@ -21,6 +21,18 @@ class UIManager {
         if (this.elements.device) {
             this.elements.device.classList.toggle('powered-off', !isOn);
         }
+
+        // Update connection status
+        const connectionStatus = document.querySelector('.connection-status');
+        const connectionText = document.querySelector('.connection-text');
+
+        if (connectionStatus) {
+            connectionStatus.classList.toggle('disconnected', !isOn);  // ADD THIS LINE
+        }
+
+        if (connectionText) {
+            connectionText.textContent = isOn ? 'Connected' : 'Disconnected';
+        }
     }
 
     /**

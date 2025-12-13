@@ -13,7 +13,7 @@ class EP133Simulator {
         // Application state
         this.currentTab = 'output';
         this.currentMode = 'comp';
-        this.isPoweredOn = true;
+        this.isPoweredOn = false;
         this.currentTheme = localStorage.getItem(CONFIG.STORAGE.THEME) || CONFIG.UI.THEMES.DARK;
 
         // Settings
@@ -46,6 +46,7 @@ class EP133Simulator {
         this.setupEventListeners();
         this.applySettings();
         this.uiManager.applyTheme(this.currentTheme);
+        this.uiManager.togglePower(this.isPoweredOn)
     }
 
     /**
