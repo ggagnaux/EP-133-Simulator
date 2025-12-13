@@ -328,6 +328,32 @@ class EP133Simulator {
             });
         });
 
+        // Settings dialog sliders
+        const volumeSlider = document.getElementById('volume-default');
+        const tempoSlider = document.getElementById('tempo-default');
+        const transformSlider = document.getElementById('transform-value');
+
+        if (volumeSlider) {
+            volumeSlider.addEventListener('input', (e) => {
+                const value = e.target.value;
+                e.target.nextElementSibling.textContent = value;
+            });
+        }
+
+        if (tempoSlider) {
+            tempoSlider.addEventListener('input', (e) => {
+                const value = e.target.value;
+                e.target.nextElementSibling.textContent = value + ' BPM';
+            });
+        }
+
+        if (transformSlider) {
+            transformSlider.addEventListener('input', (e) => {
+                const value = e.target.value;
+                e.target.nextElementSibling.textContent = value + '°';
+            });
+        }
+
         // Save settings button
         const saveBtn = document.getElementById('save-settings');
         if (saveBtn) {
