@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EP-133 Simulator</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <div class="ep133-device">
+            <!-- Top Section with Logo -->
+            <div class="device-header">
+                <div class="logo">
+                    <span class="te-logo">teenage engineering</span>
+                    <span class="device-name">EP–133 K.O. II</span>
+                </div>
+            </div>
+
+            <!-- Screen and Transport Section -->
+            <div class="screen-transport-section">
+                <!-- Screen -->
+                <div class="screen">
+                    <div class="display">
+                        <div class="display-text" id="displayText">EP-133</div>
+                        <div class="display-line2" id="displayLine2">READY</div>
+                    </div>
+                </div>
+
+                <!-- Transport Controls -->
+                <div class="transport-controls">
+                    <button class="transport-btn" id="playBtn" data-action="play">
+                        <span class="transport-icon">▶</span>
+                        <span class="transport-label">play</span>
+                    </button>
+                    <button class="transport-btn" id="stopBtn" data-action="stop">
+                        <span class="transport-icon">⏹</span>
+                        <span class="transport-label">stop</span>
+                    </button>
+                    <button class="transport-btn" id="recBtn" data-action="record">
+                        <span class="transport-icon">⏺</span>
+                        <span class="transport-label">rec</span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Main Control Section -->
+            <div class="main-controls">
+                <!-- Left Side Controls -->
+                <div class="left-controls">
+                    <div class="mode-buttons">
+                        <button class="mode-btn active" data-action="pattern">
+                            <span class="btn-number">1</span>
+                            <span class="btn-label">pattern</span>
+                        </button>
+                        <button class="mode-btn" data-action="track">
+                            <span class="btn-number">2</span>
+                            <span class="btn-label">track</span>
+                        </button>
+                        <button class="mode-btn" data-action="sound">
+                            <span class="btn-number">3</span>
+                            <span class="btn-label">sound</span>
+                        </button>
+                        <button class="mode-btn" data-action="mixer">
+                            <span class="btn-number">4</span>
+                            <span class="btn-label">mixer</span>
+                        </button>
+                    </div>
+                    
+                    <div class="function-buttons">
+                        <button class="func-btn" data-action="fx">
+                            <span class="btn-label">fx</span>
+                        </button>
+                        <button class="func-btn" data-action="master">
+                            <span class="btn-label">master</span>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Right Side Controls -->
+                <div class="right-controls">
+                    <div class="tempo-swing">
+                        <button class="tempo-btn" data-action="tempo">
+                            <span class="btn-label">tempo</span>
+                            <span class="btn-value" id="tempoValue">120</span>
+                        </button>
+                        <button class="swing-btn" data-action="swing">
+                            <span class="btn-label">swing</span>
+                            <span class="btn-value" id="swingValue">0</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Main Pad Grid -->
+            <div class="pad-section">
+                <div class="pad-grid">
+                    <div class="pad-row">
+                        <button class="pad kick-pad" data-pad="1">
+                            <span class="pad-number">1</span>
+                            <span class="pad-label">kick</span>
+                        </button>
+                        <button class="pad snare-pad" data-pad="2">
+                            <span class="pad-number">2</span>
+                            <span class="pad-label">snare</span>
+                        </button>
+                        <button class="pad hihat-pad" data-pad="3">
+                            <span class="pad-number">3</span>
+                            <span class="pad-label">hi-hat</span>
+                        </button>
+                        <button class="pad openhat-pad" data-pad="4">
+                            <span class="pad-number">4</span>
+                            <span class="pad-label">open</span>
+                        </button>
+                    </div>
+                    <div class="pad-row">
+                        <button class="pad clap-pad" data-pad="5">
+                            <span class="pad-number">5</span>
+                            <span class="pad-label">clap</span>
+                        </button>
+                        <button class="pad crash-pad" data-pad="6">
+                            <span class="pad-number">6</span>
+                            <span class="pad-label">crash</span>
+                        </button>
+                        <button class="pad ride-pad" data-pad="7">
+                            <span class="pad-number">7</span>
+                            <span class="pad-label">ride</span>
+                        </button>
+                        <button class="pad perc-pad" data-pad="8">
+                            <span class="pad-number">8</span>
+                            <span class="pad-label">perc</span>
+                        </button>
+                    </div>
+                    <div class="pad-row">
+                        <button class="pad bass-pad" data-pad="9">
+                            <span class="pad-number">9</span>
+                            <span class="pad-label">bass</span>
+                        </button>
+                        <button class="pad synth-pad" data-pad="10">
+                            <span class="pad-number">10</span>
+                            <span class="pad-label">synth</span>
+                        </button>
+                        <button class="pad lead-pad" data-pad="11">
+                            <span class="pad-number">11</span>
+                            <span class="pad-label">lead</span>
+                        </button>
+                        <button class="pad pad-pad" data-pad="12">
+                            <span class="pad-number">12</span>
+                            <span class="pad-label">pad</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Step Sequencer LEDs -->
+            <div class="sequencer-section">
+                <div class="step-indicator">
+                    <span class="step-label">step</span>
+                </div>
+                <div class="step-leds">
+                    <div class="led-group single-row">
+                        <div class="step-led" data-step="0"><span class="step-num">1</span></div>
+                        <div class="step-led" data-step="1"><span class="step-num">2</span></div>
+                        <div class="step-led" data-step="2"><span class="step-num">3</span></div>
+                        <div class="step-led" data-step="3"><span class="step-num">4</span></div>
+                        <div class="step-led" data-step="4"><span class="step-num">5</span></div>
+                        <div class="step-led" data-step="5"><span class="step-num">6</span></div>
+                        <div class="step-led" data-step="6"><span class="step-num">7</span></div>
+                        <div class="step-led" data-step="7"><span class="step-num">8</span></div>
+                        <div class="step-led" data-step="8"><span class="step-num">9</span></div>
+                        <div class="step-led" data-step="9"><span class="step-num">10</span></div>
+                        <div class="step-led" data-step="10"><span class="step-num">11</span></div>
+                        <div class="step-led" data-step="11"><span class="step-num">12</span></div>
+                        <div class="step-led" data-step="12"><span class="step-num">13</span></div>
+                        <div class="step-led" data-step="13"><span class="step-num">14</span></div>
+                        <div class="step-led" data-step="14"><span class="step-num">15</span></div>
+                        <div class="step-led" data-step="15"><span class="step-num">16</span></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Knobs and Controls -->
+            <div class="controls-section">
+                <div class="knob-group">
+                    <div class="knob-container">
+                        <div class="knob" data-param="volume">
+                            <div class="knob-pointer"></div>
+                        </div>
+                        <label>volume</label>
+                    </div>
+                    <div class="knob-container">
+                        <div class="knob" data-param="filter">
+                            <div class="knob-pointer"></div>
+                        </div>
+                        <label>filter</label>
+                    </div>
+                    <div class="knob-container">
+                        <div class="knob" data-param="decay">
+                            <div class="knob-pointer"></div>
+                        </div>
+                        <label>decay</label>
+                    </div>
+                    <div class="knob-container">
+                        <div class="knob" data-param="pitch">
+                            <div class="knob-pointer"></div>
+                        </div>
+                        <label>pitch</label>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Bottom Controls -->
+            <div class="bottom-section">
+                <!-- Side Buttons -->
+                <div class="side-controls">
+                    <button class="func-btn" data-action="copy">
+                        <span class="btn-label">copy</span>
+                    </button>
+                    <button class="func-btn" data-action="paste">
+                        <span class="btn-label">paste</span>
+                    </button>
+                    <button class="func-btn" data-action="clear">
+                        <span class="btn-label">clear</span>
+                    </button>
+                    <button class="func-btn shift-btn" data-action="shift">
+                        <span class="btn-label">shift</span>
+                    </button>
+                </div>
+
+                <!-- Bottom Navigation -->
+                <div class="nav-controls">
+                    <button class="nav-btn" data-action="left">
+                        <span class="nav-arrow">◀</span>
+                    </button>
+                    <button class="nav-btn ok-btn" data-action="ok">
+                        <span class="btn-label">ok</span>
+                    </button>
+                    <button class="nav-btn" data-action="right">
+                        <span class="nav-arrow">▶</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

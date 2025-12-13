@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Five Creative Reveal/Hide Techniques — Demo</title>
+  <style>
+    :root{
+      --bg:#0b0f14; --fg:#e8f1ff; --muted:#9fb3c8; --accent:#6ee7ff;
+      --card:#121924; --accent2:#a78bfa; --ok:#34d399; --warn:#f59e0b; --danger:#ef4444;
+    }
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0; background:var(--bg); color:var(--fg); font:16px/1.5 ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,"Helvetica Neue",Arial;
+    }
+    header{position:sticky;top:0;z-index:50;background:linear-gradient(180deg,#0b0f14 80%,#0b0f1400 100%);backdrop-filter:saturate(120%) blur(8px);}
+    .wrap{max-width:1100px;margin:0 auto;padding:24px}
+    h1{font-size:clamp(24px,3vw,36px);margin:0 0 12px}
+    p.lead{color:var(--muted);margin:0 0 12px}
+    .grid{display:grid;gap:22px;margin-top:8px}
+    .tech{background:var(--card);border:1px solid #1c2735;border-radius:16px;overflow:hidden;box-shadow:0 10px 30px #00000040}
+    .tech header{position:relative;background:linear-gradient(120deg,#1b2736,#121a26);padding:14px 18px;border-bottom:1px solid #1f2b3b}
+    .label{font-weight:700;letter-spacing:.2px}
+    .controls{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+    button{appearance:none;border:1px solid #2a3a4f;background:#131c29;color:var(--fg);padding:8px 12px;border-radius:999px;cursor:pointer;transition:transform .08s ease,background .2s;border-color:#2a3a4f}
+    button:hover{transform:translateY(-1px)}
+    button.primary{background:linear-gradient(120deg,#1a2433,#0f1722);border-color:#2b3a50}
+    code.tag{background:#0e1420;padding:2px 8px;border-radius:6px;border:1px solid #1b2534;color:#cfe6ff}
+    .stage{position:relative;isolation:isolate;overflow:hidden;min-height:240px;background:#0c131e}
+    .stage .content{position:absolute;inset:0;padding:22px;display:grid;place-items:center;text-align:center}
+    .stage h3{margin:0;font-size:22px}
+    .badge{display:inline-block;padding:2px 8px;border-radius:999px;border:1px solid #25405d;background:#0f1926;color:#a9d1ff;font-size:12px;margin-top:8px}
+
+    /* 1) Mask-Based “Peel Away” Reveal */
+    .peel-stage{--r:0%;}
+    .peel-mask{position:absolute;inset:0;background:radial-gradient(circle at var(--cx,50%) var(--cy,50%), transparent 0 calc(var(--r) - 1%), #0c131e var(--r));
+      mix-blend-mode:normal;transition:--r .6s cubic-bezier(.2,.8,.2,1);}
+    .peel-stage.revealed{--r:0%;}
+    .peel-stage.hidden{--r:140%;}
+    .peel-stage .hint{position:absolute;inset:auto auto 10px 10px;color:#8fb6ff;font-size:12px;opacity:.7}
+
+    /* 2) Morphing Blob Transition (clip-path polygon morph) */
+    .blob-stage{--progress:0}
+    .blob-overlay{position:absolute;inset:-10%;background:conic-gradient(from 0turn at 50% 50%, #132235, #17263b, #0d1827, #132235);
+      z-index:2;clip-path:polygon(48% 0%, 59% 4%, 70% 12%, 75% 24%, 76% 37%, 71% 51%, 62% 64%, 50% 72%, 37% 76%, 24% 72%, 14% 64%, 7% 51%, 4% 37%, 7% 24%, 14% 12%, 24% 4%);
+      transition:clip-path 900ms cubic-bezier(.2,.8,.2,1), opacity 300ms ease}
+    .blob-stage.revealed .blob-overlay{clip-path:circle(0% at 50% 50%);opacity:0;}
+    .blob-stage.hidden .blob-overlay{clip-path:circle(120% at 50% 50%);opacity:1;}
+    .blob-stage .sparkle{position:absolute;inset:0;pointer-events:none;mix-blend-mode:screen;opacity:.25;background:radial-gradient(circle at 30% 30%,#9ee8ff22,transparent 40%),radial-gradient(circle at 70% 60%,#bda7ff22,transparent 40%)}
+
+    /* 3) Parallax “Curtain Pull” */
+    .curtain-stage{perspective:900px}
+    .curtain{position:absolute;inset:0;display:grid;grid-template-columns:1fr 1fr;z-index:3}
+    .curtain .panel{background:linear-gradient(180deg,#0f1623,#0b1120);border-right:1px solid #1f2a3e}
+    .curtain .panel.right{border-right:0;border-left:1px solid #1f2a3e}
+    .curtain-stage .panel{transform:translateZ(0) rotateY(0) translateX(0);transition:transform 800ms cubic-bezier(.2,.8,.2,1)}
+    .curtain-stage.revealed .panel.left{transform:translateX(-102%) rotateY(18deg)}
+    .curtain-stage.revealed .panel.right{transform:translateX(102%) rotateY(-18deg)}
+
+    /* 4) Pixelated Dissolve */
+    .dissolve-stage{--cells:18;}
+    .pixel-grid{position:absolute;inset:0;display:grid;grid-template-columns:repeat(var(--cells),1fr);grid-template-rows:repeat(var(--cells),1fr);z-index:3}
+    .pixel{background:#0c131e;opacity:1;transition:opacity 450ms ease}
+    .pixel.fade{opacity:0}
+
+    /* 5) Scroll-Synced Reveal (mask wipe tied to progress) */
+    .scroll-stage{position:relative;height:120vh;display:grid;place-items:center;background:linear-gradient(180deg,#0b101a 0%,#0e1522 35%,#0b101a 100%)}
+    .scroll-card{position:sticky;top:12vh;width:min(900px,92vw);border-radius:20px;border:1px solid #1c2735;background:#0e1724;min-height:280px;overflow:hidden}
+    .scroll-inner{position:relative;}
+    .scroll-mask{--p:0;position:absolute;inset:0;background:#0e1724;-webkit-mask:linear-gradient(90deg,#000 calc(var(--p)*1%), transparent 0);mask:linear-gradient(90deg,#000 calc(var(--p)*1%), transparent 0)}
+    .scroll-reveal{position:absolute;inset:0;padding:28px;display:grid;place-items:center;text-align:center}
+
+    /* Shared demo content styling */
+    .demo-text{max-width:60ch}
+    .buttons{display:flex;gap:10px;flex-wrap:wrap}
+    .note{color:var(--muted);font-size:13px}
+    .kbd{display:inline-block;border:1px solid #22344a;background:#0c141e;border-radius:6px;padding:1px 6px;font-size:12px}
+    @media (min-width:900px){ .grid{grid-template-columns:1fr 1fr} }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="wrap">
+      <h1>Five Creative Reveal/Hide Techniques</h1>
+      <p class="lead">Pure HTML/CSS/JS — fast, dependency-free. Click the buttons to toggle each effect.</p>
+    </div>
+  </header>
+
+  <main class="wrap grid">
+    <!-- 1) Mask-Based “Peel Away” Reveal -->
+    <section class="tech" id="peel">
+      <header>
+        <div class="controls">
+          <span class="label">1) Mask-Based “Peel Away”</span>
+          <span class="badge"><code class="tag">clip-path</code> + custom props</span>
+          <span class="note">Tip: move your mouse to set the peel origin.</span>
+          <span class="spacer" style="flex:1"></span>
+          <button class="primary" data-action="toggle" data-target="#peel .peel-stage">Toggle</button>
+        </div>
+      </header>
+      <div class="stage peel-stage hidden">
+        <div class="peel-mask"></div>
+        <div class="content">
+          <div class="demo-text">
+            <h3>Peek through a dynamic circular mask</h3>
+            <p>We animate a radial mask by changing a CSS custom property (<code>--r</code>) and track the mouse for origin (<code>--cx / --cy</code>).</p>
+          </div>
+        </div>
+        <div class="hint">Move cursor · Click Toggle</div>
+      </div>
+    </section>
+
+    <!-- 2) Morphing Blob Transition -->
+    <section class="tech" id="blob">
+      <header>
+        <div class="controls">
+          <span class="label">2) Morphing Blob Transition</span>
+          <span class="badge"><code class="tag">clip-path: polygon()</code> morph</span>
+          <span class="spacer" style="flex:1"></span>
+          <button class="primary" data-action="toggle" data-target="#blob .blob-stage">Toggle</button>
+        </div>
+      </header>
+      <div class="stage blob-stage hidden">
+        <div class="blob-overlay"></div>
+        <div class="sparkle"></div>
+        <div class="content">
+          <div class="demo-text">
+            <h3>Organic overlay reveals content</h3>
+            <p>An oversized blob covers the stage, then shrinks to nothing via <code>clip-path</code>, creating a fluid reveal without libraries.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 3) Parallax “Curtain Pull” -->
+    <section class="tech" id="curtain">
+      <header>
+        <div class="controls">
+          <span class="label">3) Parallax “Curtain Pull”</span>
+          <span class="badge">3D transform + opposing panels</span>
+          <span class="spacer" style="flex:1"></span>
+          <button class="primary" data-action="toggle" data-target="#curtain .curtain-stage">Toggle</button>
+        </div>
+      </header>
+      <div class="stage curtain-stage">
+        <div class="curtain">
+          <div class="panel left"></div>
+          <div class="panel right"></div>
+        </div>
+        <div class="content">
+          <div class="demo-text">
+            <h3>Stage curtains pull back with depth</h3>
+            <p>Opposed panels translate and rotate on the Y axis, adding subtle parallax to reveal the scene.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 4) Pixelated Dissolve -->
+    <section class="tech" id="dissolve">
+      <header>
+        <div class="controls">
+          <span class="label">4) Pixelated Dissolve</span>
+          <span class="badge">Canvas-like grid (no canvas)</span>
+          <span class="spacer" style="flex:1"></span>
+          <button class="primary" data-action="toggle" data-target="#dissolve .dissolve-stage">Toggle</button>
+        </div>
+      </header>
+      <div class="stage dissolve-stage">
+        <div class="pixel-grid" aria-hidden="true"></div>
+        <div class="content">
+          <div class="demo-text">
+            <h3>Retro pixel-out → content</h3>
+            <p>We generate a grid overlay and fade tiles out in randomized order for a low-fi dissolve. Reset to hide again.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 5) Scroll-Synced Reveal -->
+    <section class="tech" id="scroll">
+      <header>
+        <div class="controls">
+          <span class="label">5) Scroll-Synced Reveal</span>
+          <span class="badge">Sticky card + mask tied to progress</span>
+          <span class="spacer" style="flex:1"></span>
+          <span class="note">Scroll this section ↓</span>
+        </div>
+      </header>
+      <div class="scroll-stage">
+        <div class="scroll-card">
+          <div class="scroll-inner" id="scrollInner">
+            <div class="scroll-mask" id="scrollMask"></div>
+            <div class="scroll-reveal">
+              <div class="demo-text">
+                <h3>Wipe reveals left → right as you scroll</h3>
+                <p>We compute section progress (0 → 100) and feed it to a CSS mask via <code>--p</code> for smooth, GPU-friendly wipes.</p>
+                <div class="note">Tip: Use <span class="kbd">position: sticky</span> to keep the focal area in view while progress updates.</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <script>
+    // Util: toggle helper
+    function toggleStage(selector){
+      const el = document.querySelector(selector);
+      if(!el) return;
+      if(el.classList.contains('hidden')){
+        el.classList.remove('hidden');
+        el.classList.add('revealed');
+      }else if(el.classList.contains('revealed')){
+        el.classList.remove('revealed');
+        el.classList.add('hidden');
+      }else{
+        // default to revealed
+        el.classList.add('revealed');
+      }
+    }
+
+    document.addEventListener('click', (e)=>{
+      const btn = e.target.closest('button[data-action="toggle"]');
+      if(!btn) return;
+      const target = btn.getAttribute('data-target');
+      toggleStage(target);
+    });
+
+    // 1) Peel: track cursor for origin
+    (function(){
+      const stage = document.querySelector('#peel .peel-stage');
+      const mask = stage.querySelector('.peel-mask');
+      // Start hidden; clicking toggle flips classes. Set default radius states.
+      stage.classList.add('hidden');
+      // Mouse move sets custom properties for center
+      stage.addEventListener('mousemove', (e)=>{
+        const rect = stage.getBoundingClientRect();
+        const x = ((e.clientX - rect.left) / rect.width) * 100;
+        const y = ((e.clientY - rect.top) / rect.height) * 100;
+        mask.style.setProperty('--cx', x + '%');
+        mask.style.setProperty('--cy', y + '%');
+      });
+    })();
+
+    // 4) Pixelated dissolve: build grid & randomize fade order
+    (function(){
+      const stage = document.querySelector('#dissolve .dissolve-stage');
+      const grid = stage.querySelector('.pixel-grid');
+      const cells = parseInt(getComputedStyle(stage).getPropertyValue('--cells')) || 16;
+      const total = cells * cells;
+      // Build once
+      const frag = document.createDocumentFragment();
+      for(let i=0;i<total;i++){
+        const d = document.createElement('div');
+        d.className = 'pixel';
+        frag.appendChild(d);
+      }
+      grid.appendChild(frag);
+
+      // Toggle behavior
+      const toggle = () => {
+        const pixels = Array.from(grid.children);
+        if(stage.classList.contains('revealed')){
+          // Hide again: reset
+          pixels.forEach(p=>{p.classList.remove('fade'); p.style.transitionDelay = '0ms';});
+          stage.classList.remove('revealed');
+        } else {
+          // Reveal: random order fade
+          const order = pixels.map((p,i)=>i).sort(()=>Math.random()-0.5);
+          order.forEach((idx,i)=>{
+            const delay = 8 * i; // ms per tile
+            pixels[idx].style.transitionDelay = delay + 'ms';
+            pixels[idx].classList.add('fade');
+          });
+          stage.classList.add('revealed');
+        }
+      };
+
+      // Wire button (local to section)
+      document.querySelector('#dissolve [data-action="toggle"]').addEventListener('click', (e)=>{
+        e.stopPropagation();
+        toggle();
+      });
+    })();
+
+    // 3) Curtain: default closed; toggle opens/closes
+    (function(){
+      const stage = document.querySelector('#curtain .curtain-stage');
+      // start closed; clicking toggle adds .revealed via generic handler
+      stage.classList.remove('revealed');
+    })();
+
+    // 2) Blob: default hidden; generic toggle handles transitions
+    (function(){
+      const stage = document.querySelector('#blob .blob-stage');
+      stage.classList.add('hidden');
+    })();
+
+    // 5) Scroll-synced reveal: progress → CSS var
+    (function(){
+      const section = document.querySelector('#scroll .scroll-stage');
+      const mask = document.getElementById('scrollMask');
+
+      const update = () => {
+        const rect = section.getBoundingClientRect();
+        const vh = window.innerHeight || document.documentElement.clientHeight;
+        const start = vh * 0.0; // when top hits viewport top
+        const end = rect.height - vh * 0.24; // until near the end (sticky top offset margin)
+        const raw = (start - rect.top) / end; // 0 → 1
+        const p = Math.max(0, Math.min(1, raw));
+        mask.style.setProperty('--p', (p*100).toFixed(2));
+      };
+
+      update();
+      document.addEventListener('scroll', update, {passive:true});
+      window.addEventListener('resize', update);
+    })();
+  </script>
+</body>
+</html>

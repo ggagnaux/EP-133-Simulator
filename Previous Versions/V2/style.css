@@ -1,0 +1,124 @@
+
+#ep-133 {
+    width: 400px;
+    height: 200px;
+    border: 5px solid black;
+    background-color: #f0f0f0; /* Light gray background */
+    display: flex;
+    flex-direction: column; /* Arrange elements vertically */
+}
+
+#screen {
+    width: 100%;
+    height: 40px;
+    background-color: #000; /* Black screen */
+    margin-bottom: 10px; /* Space between screen and buttons */
+}
+
+#buttons {
+    display: flex;
+    justify-content: space-around; /* Distribute buttons evenly */
+    margin-bottom: 10px; /* Space between buttons and knobs */
+}
+
+#knobs {
+    display: flex;
+    justify-content: space-around; /* Distribute knobs evenly */
+    margin-bottom: 10px; /* Space between knobs and pads */
+}
+
+#pads {
+    display: flex;
+    justify-content: space-around; /* Distribute pads evenly */
+}
+
+/* Previous CSS code remains the same */
+
+button {
+    width: 40px;
+    height: 30px;
+    background-color: #ddd; /* Light gray for buttons */
+    border: 2px solid #666; /* Darker gray border */
+    border-radius: 5px; /* Slightly rounded corners */
+    font-weight: bold;
+}
+
+.knob {
+    width: 20px;
+    height: 20px;
+    background-color: #bbb; /* Slightly darker gray for knobs */
+    border: 2px solid #666; /* Darker gray border */
+    border-radius: 50%; /* Make them circular */
+}
+
+.pad {
+    width: 30px;
+    height: 30px;
+    background-color: #f0f0f0; /* Same color as the device background */
+    border: 2px solid #666; /* Darker gray border */
+}
+
+#sequencer {
+    display: flex;
+    margin-top: 10px; /* Space above the sequencer */
+}
+
+.step {
+    width: 20px;
+    height: 20px;
+    background-color: #ddd; /* Light gray for steps */
+    border: 2px solid #666; /* Darker gray border */
+    margin-right: 5px; /* Space between steps */
+    cursor: pointer; /* Indicate that steps are clickable */
+}
+
+.step.active {
+    background-color: #666; /* Darker gray for active steps */
+}
+
+.pad.active {
+    background-color: #bbb; /* Slightly darker gray for active pads */
+}
+
+@font-face {
+    font-family: 'Seven Segment'; /* Choose a suitable font name */
+    src: url('seven_segment.woff2') format('woff2'), /* Add your font file and formats */
+        url('seven_segment.woff') format('woff'),
+        url('seven segment.ttf') format('ttf');
+}
+
+#screen {
+    /* ... (previous styles) */
+    font-family: 'Seven Segment', monospace; /* Use the seven segment font */
+    font-size: 24px;
+    color: #f00; /* Red color for the display */
+    display: flex;
+    align-items: center;
+    justify-content: center; /* Center the text */
+    position: relative; /* To position the canvas */
+}
+
+#waveform {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+
+.knob {
+    /* ... (previous styles) */
+    position: relative; /* To position the indicator */
+}
+
+.knob::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 5px;
+    height: 5px;
+    background-color: #666; /* Darker gray for the indicator */
+    border-radius: 50%;
+}
