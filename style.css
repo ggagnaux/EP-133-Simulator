@@ -2639,3 +2639,36 @@ body {
         width: 100%;
     }
 }
+
+/* Connection Status Indicator */
+.connection-status {
+    position: fixed;
+    bottom: 20px;
+    left: 20px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-family: 'Courier New', monospace;
+    font-size: 12px;
+    color: var(--text-primary);
+    z-index: 1000;
+    background: var(--bg-primary);
+    padding: 6px 12px;
+    border-radius: 4px;
+    border: 1px solid var(--border-color);
+}
+
+.connection-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background-color: #00ff00;
+    /* Green when connected */
+    box-shadow: 0 0 4px #00ff00;
+}
+
+.connection-status.disconnected .connection-dot {
+    background-color: #ff0000;
+    /* Red when disconnected */
+    box-shadow: 0 0 4px #ff0000;
+}
