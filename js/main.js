@@ -19,7 +19,7 @@ class EP133Simulator {
         // Settings
         this.settings = {
             defaultVolume: this.loadValidatedSetting(CONFIG.STORAGE.DEFAULT_VOLUME, 50, 0, 100),
-            defaultTempo: this.loadValidatedSetting(CONFIG.STORAGE.DEFAULT_TEMPO, 133, 60, 180),
+            defaultTempo: this.loadValidatedSetting(CONFIG.STORAGE.DEFAULT_TEMPO, CONFIG.SEQUENCER.DEFAULT_TEMPO, CONFIG.SEQUENCER.MIN_TEMPO, CONFIG.SEQUENCER.MAX_TEMPO),
             showTooltips: localStorage.getItem(CONFIG.STORAGE.SHOW_TOOLTIPS) !== 'false',
             enableSounds: localStorage.getItem(CONFIG.STORAGE.ENABLE_SOUNDS) !== 'false',
             transform: parseFloat(localStorage.getItem(CONFIG.STORAGE.TRANSFORM)) || CONFIG.UI.DEFAULT_TRANSFORM_ANGLE
@@ -235,7 +235,7 @@ class EP133Simulator {
     getKnobValue(control) {
         switch (control) {
             case 'volume': return this.settings.defaultVolume;
-            case 'tempo': return ((this.sequencer.bpm - MIN_TEMPO) / 120) * 100;
+            case 'tempo': return ((this.sequencer.bpm - CONFIG.SEQUENCER.MIN_TEMPO) / 120) * 100;
             case 'pitch': return 50; // TODO: Implement pitch
             default: return 50;
         }
@@ -251,7 +251,7 @@ class EP133Simulator {
                 this.audioEngine.setVolume(value);
                 break;
             case 'tempo':
-                const newBpm = Math.round(MIN_TEMPO + (value / 100) * 120);
+                const newBpm = Math.round(CONFIG.SEQUENCER.MIN_TEMPO + (value / 100) * 120);
                 this.sequencer.setBpm(newBpm);
                 break;
             case 'pitch':
