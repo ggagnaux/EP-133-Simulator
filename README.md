@@ -2,6 +2,11 @@
 
 A browser-based simulator inspired by the Teenage Engineering EP-133 K.O. II interface.
 
+## Screen Shots
+
+![EP-133 Simulator - Dark Theme](Screenshots/EP-133-Dark.jpg)
+![EP-133 Simulator - Light Theme](Screenshots/EP-133-Light.jpg)
+
 ## Current Status
 
 This project currently provides:
