@@ -43,6 +43,7 @@ class EP133Simulator {
         this.uiManager.init();
         this.audioEngine.init();
 
+        this.runSelectorSanityChecks();
         this.setupEventListeners();
         this.applySettings();
         this.uiManager.applyTheme(this.currentTheme);
@@ -56,6 +57,7 @@ class EP133Simulator {
         this.audioEngine.setVolume(this.settings.defaultVolume);
         this.sequencer.setBpm(this.settings.defaultTempo);
         this.uiManager.applyTransform(this.settings.transform);
+        this.uiManager.toggleTooltips(this.settings.showTooltips);
         this.updateDisplay();
     }
 
@@ -99,9 +101,25 @@ class EP133Simulator {
             pad.addEventListener('contextmenu', (e) => e.preventDefault());
         });
 
-        // Transport buttons
-        document.querySelectorAll(CONFIG.UI.SELECTORS.TRANSPORT_BTNS).forEach(btn => {
-            btn.addEventListener('click', () => this.handleTransport(btn.dataset.transport));
+        // Half pads use same press/release behavior as full pads
+        document.querySelectorAll(CONFIG.UI.SELECTORS.HALF_PADS).forEach(pad => {
+            const padId = pad.dataset.pad;
+
+            pad.addEventListener('mousedown', (e) => {
+                if (e.button === 0) this.handlePadPress(padId);
+            });
+            pad.addEventListener('mouseup', () => this.handlePadRelease(padId));
+            pad.addEventListener('mouseleave', () => this.handlePadRelease(padId));
+
+            pad.addEventListener('touchstart', (e) => {
+                e.preventDefault();
+                this.handlePadPress(padId);
+            });
+            pad.addEventListener('touchend', (e) => {
+                e.preventDefault();
+                this.handlePadRelease(padId);
+            });
+            pad.addEventListener('contextmenu', (e) => e.preventDefault());
         });
 
         // Knobs
@@ -115,6 +133,27 @@ class EP133Simulator {
 
         // Dialogs
         this.setupDialogListeners();
+    }
+
+    /**
+     * Verify configured selectors still match DOM markup.
+     * Logs warnings for missing selector targets.
+     */
+    runSelectorSanityChecks() {
+        Object.entries(CONFIG.UI.SELECTOR_SANITY_CHECKS).forEach(([key, minCount]) => {
+            const selector = CONFIG.UI.SELECTORS[key];
+            if (!selector) {
+                console.warn(`Missing selector config for sanity check key: ${key}`);
+                return;
+            }
+
+            const count = document.querySelectorAll(selector).length;
+            if (count < minCount) {
+                console.warn(
+                    `Selector sanity check failed: ${key} (${selector}) expected >= ${minCount}, found ${count}`
+                );
+            }
+        });
     }
 
     /**
@@ -144,21 +183,6 @@ class EP133Simulator {
         const persistentPads = ['mute', 'accent', 'play'];
         if (!persistentPads.includes(padId)) {
             this.uiManager.highlightPad(padId, false);
-        }
-    }
-
-    /**
-     * Handle transport button clicks
-     */
-    handleTransport(action) {
-        switch (action) {
-            case 'play':
-                this.sequencer.togglePlay();
-                break;
-            case 'rec':
-                this.sequencer.toggleRecord();
-                break;
-            // TODO: Add seq/write handlers
         }
     }
 
@@ -235,7 +259,12 @@ class EP133Simulator {
     getKnobValue(control) {
         switch (control) {
             case 'volume': return this.settings.defaultVolume;
-            case 'tempo': return ((this.sequencer.bpm - MIN_TEMPO) / 120) * 100;
+            case 'tempo': {
+                const minTempo = CONFIG.SEQUENCER.MIN_TEMPO;
+                const maxTempo = CONFIG.SEQUENCER.MAX_TEMPO;
+                const tempoRange = maxTempo - minTempo;
+                return ((this.sequencer.bpm - minTempo) / tempoRange) * 100;
+            }
             case 'pitch': return 50; // TODO: Implement pitch
             default: return 50;
         }
@@ -250,10 +279,14 @@ class EP133Simulator {
                 this.settings.defaultVolume = value;
                 this.audioEngine.setVolume(value);
                 break;
-            case 'tempo':
-                const newBpm = Math.round(MIN_TEMPO + (value / 100) * 120);
+            case 'tempo': {
+                const minTempo = CONFIG.SEQUENCER.MIN_TEMPO;
+                const maxTempo = CONFIG.SEQUENCER.MAX_TEMPO;
+                const tempoRange = maxTempo - minTempo;
+                const newBpm = Math.round(minTempo + (value / 100) * tempoRange);
                 this.sequencer.setBpm(newBpm);
                 break;
+            }
             case 'pitch':
                 // TODO: Implement pitch control
                 break;
@@ -404,6 +437,8 @@ class EP133Simulator {
         const volumeSlider = document.getElementById('volume-default');
         const tempoSlider = document.getElementById('tempo-default');
         const transformSlider = document.getElementById('transform-value');
+        const tooltipsCheckbox = document.getElementById('show-tooltips');
+        const soundsCheckbox = document.getElementById('enable-sounds');
 
         if (volumeSlider) {
             volumeSlider.value = this.settings.defaultVolume;
@@ -419,6 +454,13 @@ class EP133Simulator {
             transformSlider.value = this.settings.transform;
             transformSlider.nextElementSibling.textContent = this.settings.transform + '°';
         }
+        if (tooltipsCheckbox) {
+            tooltipsCheckbox.checked = this.settings.showTooltips;
+        }
+
+        if (soundsCheckbox) {
+            soundsCheckbox.checked = this.settings.enableSounds;
+        }
     }
 
     /**
@@ -428,14 +470,20 @@ class EP133Simulator {
         const volumeSlider = document.getElementById('volume-default');
         const tempoSlider = document.getElementById('tempo-default');
         const transformSlider = document.getElementById('transform-value');
+        const tooltipsCheckbox = document.getElementById('show-tooltips');
+        const soundsCheckbox = document.getElementById('enable-sounds');
 
         this.settings.defaultVolume = parseInt(volumeSlider.value);
         this.settings.defaultTempo = parseInt(tempoSlider.value);
         this.settings.transform = parseFloat(transformSlider.value);
+        this.settings.showTooltips = tooltipsCheckbox ? tooltipsCheckbox.checked : true;
+        this.settings.enableSounds = soundsCheckbox ? soundsCheckbox.checked : true;
 
         localStorage.setItem(CONFIG.STORAGE.DEFAULT_VOLUME, this.settings.defaultVolume);
         localStorage.setItem(CONFIG.STORAGE.DEFAULT_TEMPO, this.settings.defaultTempo);
         localStorage.setItem(CONFIG.STORAGE.TRANSFORM, this.settings.transform);
+        localStorage.setItem(CONFIG.STORAGE.SHOW_TOOLTIPS, String(this.settings.showTooltips));
+        localStorage.setItem(CONFIG.STORAGE.ENABLE_SOUNDS, String(this.settings.enableSounds));
 
         this.applySettings();
         document.getElementById('settings-dialog').classList.remove('active');
