@@ -19,7 +19,7 @@ class EP133Simulator {
         // Settings
         this.settings = {
             defaultVolume: this.loadValidatedSetting(CONFIG.STORAGE.DEFAULT_VOLUME, 50, 0, 100),
-            defaultTempo: this.loadValidatedSetting(CONFIG.STORAGE.DEFAULT_TEMPO, 133, 60, 180),
+            defaultTempo: this.loadValidatedSetting(CONFIG.STORAGE.DEFAULT_TEMPO, CONFIG.SEQUENCER.DEFAULT_TEMPO, CONFIG.SEQUENCER.MIN_TEMPO, CONFIG.SEQUENCER.MAX_TEMPO),
             showTooltips: localStorage.getItem(CONFIG.STORAGE.SHOW_TOOLTIPS) !== 'false',
             enableSounds: localStorage.getItem(CONFIG.STORAGE.ENABLE_SOUNDS) !== 'false',
             transform: parseFloat(localStorage.getItem(CONFIG.STORAGE.TRANSFORM)) || CONFIG.UI.DEFAULT_TRANSFORM_ANGLE
