@@ -1,212 +1,72 @@
-# EP-133 K.O. II Sampler Composer Simulator
+# EP-133 K.O. II Simulator
 
-A JavaScript-based web simulator of the Teenage Engineering EP-133 K.O. II sampler composer device.
+A browser-based simulator inspired by the Teenage Engineering EP-133 K.O. II interface.
 
-## Project Overview
+## Current Status
 
-This project recreates the visual interface and basic functionality of the EP-133 K.O. II sampler composer, featuring an accurate representation of the device's layout, controls, and interactive elements.
+This project currently provides:
 
-## Screenshots
+- A detailed visual device UI with dark/light themes
+- Power on/off behavior that disables the device controls when off
+- Interactive pads and half-pads with mouse/touch support
+- Keyboard shortcuts for `1-9`, `0`, `Space` (play), and `R` (record)
+- Basic Web Audio oscillator playback for numeric pads
+- A simple 16-step timing loop scaffold (sequencer core is not fully implemented yet)
+- Settings persistence via `localStorage` (theme, volume, tempo, transform, tooltips, button sounds)
 
-### Dark Theme
-![EP-133 Simulator - Dark Theme](Screenshots/EP-133-Dark.jpg)
+## What Is Not Implemented Yet
 
-### Light Theme
-![EP-133 Simulator - Light Theme](Screenshots/EP-133-Light.jpg)
+- Real sample loading/playback
+- Full EP-133 pad-mode behavior
+- Pattern recording/editing workflow
+- Rich sequencer step triggering logic
+- Export/import for patterns or samples
 
-## Features
+## Tech Stack
 
-### Visual Interface
-- **Authentic Design**: Pixel-perfect(ish) :) recreation of the EP-133 interface
-- **Responsive Layout**: Adapts to different screen sizes while maintaining proportions
-- **3D Perspective**: Subtle 3D transform for realistic device appearance
-- **Interactive Elements**: All buttons, pads, and knobs are clickable/interactive
+- HTML5
+- CSS3
+- Vanilla JavaScript
+- Web Audio API
 
-### Device Components
+## Project Structure
 
-#### Top Section
-- **Tab Bar**: 6 tabs (OUTPUT, INPUT, SYNC, FX, MIDI, SETUP)
-- **Device Header**: K.O. II branding and speaker grille simulation
-
-#### Main Display
-- **LCD-style Display**: Dark background with green text
-- **Status Indicators**: 
-  - Recording light (red)
-  - BPM display (133 default)
-  - Pattern number
-  - Play status indicator
-  - FX indicator
-
-#### Control Section
-- **Left Controls**:
-  - Volume/Cutoff knob (white)
-  - Mode buttons (SOUND, MIX, COMP)
-- **Center Pad Matrix**: 4x4 grid of pressure-sensitive pads
-  - Number pads (0-9)
-  - Function pads (MUTE, TRIG, LIFT, PUNCH, CH-OP, ACCENT)
-- **Right Controls**:
-  - Tempo knob (orange)
-  - Pitch knob (black)
-
-#### Transport Section
-- **Crossfader Slider**: Horizontal slider control
-- **Transport Buttons**: SEQ, REC, PLAY, WRITE
-
-### Functionality
-
-#### Audio Features
-- **Web Audio API Integration**: Real-time audio synthesis
-- **Pad Sounds**: Each numbered pad generates a unique tone
-- **Oscillator-based Synthesis**: Square wave generation for authentic retro sound
-
-#### Interaction Methods
-- **Mouse Controls**: Click and drag for all interface elements
-- **Keyboard Shortcuts**:
-  - Number keys (1-9, 0) map to corresponding pads
-  - Spacebar for Play/Pause
-  - 'R' key for Record
-  - Enter key for Sequencer
-
-#### Sequencer
-- **Pattern-based Sequencing**: 16-step sequencer with visual feedback
-- **BPM Control**: Adjustable tempo from 60-200 BPM
-- **Real-time Playback**: Visual step indication during playback
-
-#### Visual Feedback
-- **LED Simulation**: Glowing effects for active status lights
-- **Button States**: Visual feedback for pressed/active states
-- **Knob Rotation**: Visual rotation based on parameter values
-- **Pad Illumination**: Active pads show pulsing animation
-
-## Technical Specifications
-
-### Technologies Used
-- **HTML5**: Semantic structure and accessibility
-- **CSS3**: Advanced styling, animations, and responsive design
-- **Vanilla JavaScript**: Core functionality and interactivity
-- **Web Audio API**: Real-time audio synthesis and processing
-
-### Browser Compatibility
-- Chrome 66+
-- Firefox 60+
-- Safari 12+
-- Edge 79+
-
-### Performance
-- **Optimized Rendering**: Hardware-accelerated CSS transforms
-- **Efficient Event Handling**: Delegated event listeners
-- **Memory Management**: Proper cleanup of audio resources
-
-## File Structure
-
-```
-EP-133/
-├── index.html         # Main HTML structure
-├── style.css          # Complete styling and animations
-├── script.js          # Core JavaScript functionality
-├── README.md          # This documentation
-└── EP-133.png         # Reference image
+```text
+EP-133 Simulator/
+|-- index.html
+|-- style.css
+|-- status-ids.js
+|-- js/
+|   |-- config.js
+|   |-- audio-engine.js
+|   |-- sequencer.js
+|   |-- ui-manager.js
+|   `-- main.js
+|-- .github/
+|   `-- workflows/
+|       `-- html-validate.yml
+`-- README.md
 ```
 
-## Color Scheme
+## Module Overview
 
-### Device Colors
-- **Main Body**: Light gray gradient (#e8e8e8 to #d0d0d0)
-- **Display**: Black background (#000) with green text (#00ff00)
-- **Orange Elements**: Gradient (#ff6600 to #cc5500)
-- **Active States**: Various colors for different feedback types
+- `js/config.js`: centralized configuration for audio, sequencer ranges, selectors, and storage keys
+- `js/audio-engine.js`: Web Audio context lifecycle and oscillator-based pad playback
+- `js/sequencer.js`: playback/record toggles, BPM management, and step loop
+- `js/ui-manager.js`: DOM caching, visual state updates, status animation, theme/power handling
+- `js/main.js`: application controller and event wiring across all modules
 
-### Status Indicators
-- **Recording**: Red (#ff0000)
-- **Play Active**: Yellow (#ffff00)
-- **Normal Display**: Green (#00ff00)
-- **Secondary Status**: Blue (#0066ff)
+## Running Locally
 
-## Control Mapping
-
-### Pads (4x4 Matrix)
-```
-[ 7 ] [ 8 ] [ 9 ] [MUTE ]
-[ 4 ] [ 5 ] [ 6 ] [TRIG ]
-[ 1 ] [ 2 ] [ 3 ] [LIFT ]
-[PUN] [ 0 ] [CHO] [ACCNT]
-```
-
-### Keyboard Shortcuts
-- **1-9, 0**: Trigger corresponding pads
-- **Spacebar**: Play/Pause
-- **R**: Record toggle
-- **Enter**: Sequencer toggle
+1. Open `index.html` in a modern browser.
+2. Interact with the page to unlock browser audio.
+3. Use pads, knobs, tabs, and settings dialog to test behavior.
 
 ## Development Notes
 
-### CSS Architecture
-- **Component-based Styling**: Modular CSS for each device section
-- **CSS Custom Properties**: Used for consistent theming
-- **Flexbox/Grid Layout**: Modern layout techniques for precise positioning
-- **Animation Performance**: GPU-accelerated transforms and opacity changes
-
-### JavaScript Architecture
-- **Class-based Structure**: EP133Simulator main class
-- **Event-driven Programming**: Comprehensive event handling system
-- **State Management**: Centralized state for all device parameters
-- **Audio Context Management**: Proper Web Audio API resource handling
-
-### Responsive Design
-- **Mobile-first Approach**: Optimized for touch devices
-- **Breakpoint Strategy**: Single breakpoint at 768px
-- **Touch-friendly Sizing**: Adequate touch targets for mobile use
-
-## Future Enhancements
-
-### Planned Features
-- **Sample Loading**: File upload and playback functionality
-- **Pattern Storage**: Save/load pattern sequences
-- **Effects Processing**: Audio effects implementation
-- **MIDI Support**: Web MIDI API integration
-- **Recording Capability**: Sample recording from microphone
-- **Export Functionality**: Pattern/sequence export
-
-### Technical Improvements
-- **WebAssembly Integration**: For advanced audio processing
-- **Service Worker**: Offline functionality
-- **IndexedDB**: Local storage for samples and patterns
-- **Web Workers**: Background audio processing
-
-## Installation
-
-1. Clone or download the project files
-2. Open `index.html` in a modern web browser
-3. Allow audio permissions if prompted
-4. Start creating music!
-
-## Usage Tips
-
-1. **Getting Started**: Click the orange PLAY button to begin
-2. **Making Sounds**: Press numbered pads (1-9, 0) to trigger sounds
-3. **Recording**: Press REC button and play pads to record sequences
-4. **Tempo Control**: Adjust the orange TEMPO knob to change BPM
-5. **Volume**: Use the white VOL/CF knob to control output level
-
-## Browser Audio Note
-
-Due to browser security policies, audio contexts require user interaction to start. Click any button or pad to initialize audio functionality.
-
-## Contributing
-
-This project welcomes contributions for:
-- Additional sound synthesis methods
-- Enhanced visual effects
-- Mobile optimization improvements
-- Accessibility enhancements
-- Bug fixes and performance optimizations
+- HTML validation is configured in GitHub Actions (`.github/workflows/html-validate.yml`).
+- `Previous Versions/` contains archival files and is not part of the active runtime.
 
 ## License
 
-This project is for educational and demonstration purposes. The EP-133 design and branding are property of Teenage Engineering.
-
----
-
-**Last Updated**: July 30, 2025
-**Version**: 1.0.0
-**Compatibility**: Modern browsers with Web Audio API support
+This project is for educational/demo purposes and is not affiliated with Teenage Engineering.

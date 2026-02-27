@@ -42,7 +42,7 @@ class UIManager {
         this.elements.device = document.querySelector(CONFIG.UI.SELECTORS.DEVICE);
         this.elements.playBtn = document.querySelector('[data-pad="play"]');
         this.elements.playIcon = document.querySelector('.play-button');
-        this.elements.recBtn = document.querySelector('[data-transport="rec"]');
+        this.elements.recBtn = document.querySelector('[data-pad="record"]');
         this.elements.recLight = document.querySelector('.status-light.red');
         this.elements.bpmDisplay = document.querySelector('.bpm-display');
         this.elements.patternNumber = document.querySelector('.pattern-number');
@@ -70,6 +70,26 @@ class UIManager {
         if (this.elements.device) {
             this.elements.device.style.transform = `rotateX(${angle}deg)`;
         }
+    }
+
+    /**
+     * Enable or disable native tooltips (title attributes)
+     * @param {boolean} enabled - Tooltip enabled state
+     */
+    toggleTooltips(enabled) {
+        document.querySelectorAll('[title]').forEach((el) => {
+            if (enabled) {
+                if (el.dataset.originalTitle) {
+                    el.setAttribute('title', el.dataset.originalTitle);
+                }
+                return;
+            }
+
+            if (!el.dataset.originalTitle) {
+                el.dataset.originalTitle = el.getAttribute('title');
+            }
+            el.removeAttribute('title');
+        });
     }
 
     /**

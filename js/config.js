@@ -55,13 +55,25 @@ const CONFIG = {
         SELECTORS: {
             DEVICE: '.ep133-device',
             PADS: '.pad',
+            HALF_PADS: '.half-pad',
             KNOBS: '.knob',
             TABS: '.tab',
             MENU_BTNS: '.menu-btn',
-            CONTROL_BTNS: '.control-btn',
-            TRANSPORT_BTNS: '.transport-btn',
+            CONTROL_BTNS: '.mode-btn',
             STATUS_ICONS: '.status-icon',
             SLIDER: '.slider'
+        },
+
+        // Startup selector checks to catch wiring drift between HTML/CSS/JS
+        SELECTOR_SANITY_CHECKS: {
+            DEVICE: 1,
+            PADS: 1,
+            HALF_PADS: 1,
+            KNOBS: 1,
+            TABS: 1,
+            MENU_BTNS: 1,
+            CONTROL_BTNS: 1,
+            STATUS_ICONS: 1
         },
 
         // Knob rotation range (in degrees)
